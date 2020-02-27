@@ -9,24 +9,28 @@ export default class Navigation extends Component {
 
         this.state = {
             isToggle: false,
-            burgerActiveClass: ''
+            burgerActiveClass: '',
+            navActiveClass: ''
         }
     }
 
     toggleBurger = () => {
         console.log('toggleburger')
         if (this.state.isToggle) {
-            this.setState({ isToggle: false, burgerActiveClass: 'burger-active' })
+            this.setState({ isToggle: false, navActiveClass: 'nav-active', burgerActiveClass: 'burger-active' })
         } else {
-            this.setState({ isToggle: true, burgerActiveClass: '' })
+            this.setState({ isToggle: true, navActiveClass: '', burgerActiveClass: '' })
         }
     }
 
     render() {
         return (
-            <div className='nav'>
+            <div className={'nav ' + this.state.navActiveClass}>
+                <div className="nav-burger">
+                    <i className="fas fa-hamburger burger" activeClassName={this.state.burgerActiveClass} onClick={() => this.toggleBurger()}></i>
+
+                </div>
                 <div className='nav-left'>
-                    <i className={"fas fa-hamburger burger " + this.state.burgerActiveClass} onClick={() => this.toggleBurger()}></i>
                     <NavLink exact to='/' className="nav-link">Home</NavLink>
                     <NavLink to='/new-trivia'className="nav-link">New Trivia</NavLink>
 
