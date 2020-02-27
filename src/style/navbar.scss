@@ -69,9 +69,9 @@
         .nav-link {
             display: inline-block;
             padding: 1rem; 
-            background-color: $darkpurple;
+            background-color: $purple;
             width: 100%;
-            // position: absolute;
+            border-top: .5px solid $darkpurple; 
         }
 
         .nav-burger {

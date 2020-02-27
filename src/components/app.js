@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './navigation/navigation';
 import { Home } from './home';
 import { NewTrivia } from './pages/trivia/new-trivia';
-import { ViewTrivia } from './pages/trivia/view-trivia';
 import { TriviaDetail } from './pages/trivia/trivia-detail';
 import { Login } from './pages/user/login';
+import ViewTrivia from './pages/trivia/view-trivia';
 
 export default class App extends Component {
   render() {

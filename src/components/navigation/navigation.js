@@ -27,7 +27,7 @@ export default class Navigation extends Component {
         return (
             <div className={'nav ' + this.state.navActiveClass}>
                 <div className="nav-burger">
-                    <i className="fas fa-hamburger burger" activeClassName={this.state.burgerActiveClass} onClick={() => this.toggleBurger()}></i>
+                    <i className="fas fa-hamburger burger" onClick={() => this.toggleBurger()}></i>
 
                 </div>
                 <div className='nav-left'>
