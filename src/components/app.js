@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import regeneratorRuntime from "regenerator-runtime";
+import "regenerator-runtime/runtime";
+require("regenerator-runtime/path").path
 
 import Navigation from './navigation/navigation';
 import { Home } from './home';

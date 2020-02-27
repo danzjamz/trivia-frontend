@@ -8,18 +8,16 @@ export default class Navigation extends Component {
         super();
 
         this.state = {
-            isToggle: false,
-            burgerActiveClass: '',
+            isToggle: true,
             navActiveClass: ''
         }
     }
 
     toggleBurger = () => {
-        console.log('toggleburger')
         if (this.state.isToggle) {
-            this.setState({ isToggle: false, navActiveClass: 'nav-active', burgerActiveClass: 'burger-active' })
+            this.setState({ isToggle: false, navActiveClass: 'nav-active' })
         } else {
-            this.setState({ isToggle: true, navActiveClass: '', burgerActiveClass: '' })
+            this.setState({ isToggle: true, navActiveClass: '' })
         }
     }
 
