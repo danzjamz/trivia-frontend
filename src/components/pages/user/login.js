@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export function Login() {
-    const user = {
-        "username": "Zuko",
-        "password": "foodfoodfood"
+export default class Login extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            'username': '',
+            'password': ''
+        }
+
     }
 
-    function login(username, password) {
+    login(username, password) {
+        console.log(username, password)
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -46,14 +52,28 @@ export function Login() {
             });
         }
     }
-    
-    login(user.username, user.password)
 
-    return (
-        <div>
-            <h1>Login</h1>
-        </div>
-    )
+    changeHandler = (event) => {
+        this.setState({ [event.target.name]: event.target.value })
+    }
+
+    submitHandler = (event) => {
+        this.login(this.state.username, this.state.password);
+        event.preventDefault();
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Login</h1>
+                <form onSubmit={ this.submitHandler }>
+                    <input type="text" name="username" placeholder="username" value={ this.state.username } onChange={ this.changeHandler } />
+                    <input type="password" name="password" placeholder="password" value={ this.state.password } onChange={ this.changeHandler } />
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        )
+    }
 }
 
 // use TradeWinds font google
