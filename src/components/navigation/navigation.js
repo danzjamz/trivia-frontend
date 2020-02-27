@@ -12,6 +12,7 @@ export default class Navigation extends Component {
         return (
             <div className='nav'>
                 <div className='nav-left'>
+                    <i className="fas fa-hamburger burger"></i>
                     <NavLink exact to='/' className="nav-link">Home</NavLink>
                     <NavLink to='/new-trivia'className="nav-link">New Trivia</NavLink>
 

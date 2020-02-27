@@ -1,18 +1,47 @@
 .nav {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     background-color: $purple;
     padding: 2rem;
+    max-height: 89px;
 
     .nav-link {
         padding: 2rem;
         text-decoration: none;
-        color: white;
         font-family: 'Viga', sans-serif;
         font-size: 1.2em;
+        color: white;
 
         &:hover {
             background-color: $darkpurple;
+        }
+    }
+
+    .burger {
+        padding: 1rem;
+        color: white;
+        display: none;
+
+        &:hover {
+            background-color: $darkpurple;
+        }
+    }
+
+}
+
+@media (max-width: 48em) {
+    .nav {
+        padding: 1.22rem;
+
+        .burger {
+            display: inline-block;
+            border: 1px solid white;
+            border-radius: 8px;
+        }
+
+        .nav-link {
+            display: none;
         }
     }
 }
