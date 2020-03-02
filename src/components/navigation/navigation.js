@@ -9,8 +9,15 @@ export default class Navigation extends Component {
 
         this.state = {
             isToggle: true,
-            navActiveClass: ''
+            navActiveClass: '',
+            isLoggedIn: false
         }
+    }
+
+    componentDidMount() {
+        // get user from local storage
+        console.log(localStorage.user)
+        // user = localStorage.user
     }
 
     toggleBurger = () => {
@@ -33,9 +40,11 @@ export default class Navigation extends Component {
                     <NavLink to='/new-trivia'className="nav-link">New Trivia</NavLink>
 
                 </div>
-                <div className='nav-right'>
-                    <NavLink to='/login'className="nav-link">Login</NavLink>
-
+                <div className='nav-right'> 
+                    { this.state.isLoggedIn ? 
+                        <NavLink to='/logout' className="nav-link">Logout</NavLink> : 
+                        <NavLink to='/login' className="nav-link">Login</NavLink> 
+                    }
                 </div>
 
             </div>

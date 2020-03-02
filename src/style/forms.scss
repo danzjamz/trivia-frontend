@@ -9,9 +9,9 @@
 }
 
 .form-wrapper {
-    background-color: $lightgreen;
-    width: 30%;
     padding-bottom: 2em;
+    width: 22em;
+    background-color: $lightgreen;
 }
 
 .form-wrapper, .form {
@@ -21,7 +21,7 @@
 .form input {
     margin: 1em;
     padding: .75em;
-    width: 100%;
+    width: 15em;
     font-size: 1em;
     background-color: floralwhite;
     border: none;
