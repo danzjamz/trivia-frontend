@@ -6,12 +6,12 @@ export default class Login extends Component {
 
         this.state = {
             'username': '',
-            'password': ''
+            'password': '',
+            'error': ''
         }
     }
 
     login(username, password) {
-        console.log(username, password)
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -27,10 +27,13 @@ export default class Login extends Component {
                     // to keep user logged in between page refreshes
                     user.authdata = window.btoa(username + ':' + password);
                     localStorage.setItem('user', JSON.stringify(user));
+                    this.setState({ error: '' })
 
                     console.log('yoyoyo', user)
                 }
                 return user;
+            }).catch(err => {
+                this.setState({ error: err})
             });
 
         function handleResponse(response) {
@@ -40,7 +43,7 @@ export default class Login extends Component {
                     if (response.status === 401) {
                         // auto logout if 401 response returned from api
                         logout();
-                        location.reload(true);
+                        // location.reload(true);
                     }
         
                     const error = (data && data.message) || response.statusText;
@@ -49,6 +52,11 @@ export default class Login extends Component {
         
                 return data;
             });
+        }
+
+        function logout() {
+            // remove user from local storage to log user out
+            localStorage.removeItem('user');
         }
     }
 
@@ -63,18 +71,19 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Login</h1>
-                <form onSubmit={ this.submitHandler }>
-                    <input type="text" name="username" placeholder="username" value={ this.state.username } onChange={ this.changeHandler } />
-                    <input type="password" name="password" placeholder="password" value={ this.state.password } onChange={ this.changeHandler } />
-                    <button type="submit">Login</button>
-                </form>
+            <div className='form-container'>
+                <div className='form-wrapper'>
+                    <h1>Login</h1>
+                    <form onSubmit={ this.submitHandler } className='form'>
+                        <p className="error">{ this.state.error }</p>
+                        <input type="text" name="username" placeholder="username" value={ this.state.username } onChange={ this.changeHandler } />
+                        <input type="password" name="password" placeholder="password" value={ this.state.password } onChange={ this.changeHandler } />
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
             </div>
         )
     }
 }
-
-// use TradeWinds font google
 
 // login fetch found at https://jasonwatmore.com/post/2018/09/11/react-basic-http-authentication-tutorial-example
