@@ -14,8 +14,10 @@ const logout = (props) => {
             // login successful if there's a user in the response
             console.log('Logout successful', response);
             localStorage.removeItem('user');
+            return true;
         }).catch(err => {
             console.log('error logging out')
+            return false;
         });
 
     function handleResponse(response) {

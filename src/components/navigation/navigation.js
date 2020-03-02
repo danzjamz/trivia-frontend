@@ -23,6 +23,16 @@ export default class Navigation extends Component {
         }
     }
 
+    logout = () => {
+        logout(this.state.user)
+            .then(res => {
+                console.log(res);
+                if (res) {
+                    this.setState({ user: null})
+                }
+            });
+    }
+
     toggleBurger = () => {
         if (this.state.isToggle) {
             this.setState({ isToggle: false, navActiveClass: 'nav-active' })
@@ -45,7 +55,7 @@ export default class Navigation extends Component {
                 </div>
                 <div className='nav-right'> 
                     { this.state.user ? 
-                        <NavLink to='/' onClick={() => logout(this.state.user) } className="nav-link">Logout</NavLink> : 
+                        <NavLink to='/' onClick={() => this.logout() } className="nav-link">Logout</NavLink> : 
                         <NavLink to='/login' className="nav-link">Login</NavLink> 
                     }
                 </div>
