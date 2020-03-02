@@ -1,9 +1,33 @@
 import React from 'react';
 
-export function Logout() {
-    return (
-        <div>
-            <h1>Logout</h1>
-        </div>
-    )
+const logout = (props) => {
+    const token = JSON.parse(props).access_token;
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+
+    };
+
+    return fetch('http://127.0.0.1:4200/logout', requestOptions)
+        .then(handleResponse)
+        .then(response => {
+            // login successful if there's a user in the response
+            console.log('Logout successful', response);
+            localStorage.removeItem('user');
+        }).catch(err => {
+            console.log('error logging out')
+        });
+
+    function handleResponse(response) {
+        return response.text().then(text => {
+            const data = text && JSON.parse(text);
+            if (!response.ok) {
+                const error = (data && data.message) || response.statusText;
+                return Promise.reject(error);
+            }
+            return data;
+        });
+    }
 }
+
+export default logout;

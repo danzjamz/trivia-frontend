@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-// import styles from '../../../style/navbar.module.css';
+import logout from '../pages/user/logout';
 
 export default class Navigation extends Component {
-    constructor(props) {
+    constructor() {
         super();
 
         this.state = {
             isToggle: true,
             navActiveClass: '',
-            isLoggedIn: false
+            user: this.setUser()
         }
     }
 
-    componentDidMount() {
+    setUser = () => {
         // get user from local storage
-        console.log(localStorage.user)
-        // user = localStorage.user
+        if (localStorage.user == undefined) {
+            return null
+        } else {
+            return localStorage.user
+        }
     }
 
     toggleBurger = () => {
@@ -41,8 +44,8 @@ export default class Navigation extends Component {
 
                 </div>
                 <div className='nav-right'> 
-                    { this.state.isLoggedIn ? 
-                        <NavLink to='/logout' className="nav-link">Logout</NavLink> : 
+                    { this.state.user ? 
+                        <NavLink to='/' onClick={() => logout(this.state.user) } className="nav-link">Logout</NavLink> : 
                         <NavLink to='/login' className="nav-link">Login</NavLink> 
                     }
                 </div>
