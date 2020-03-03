@@ -22,7 +22,7 @@ export default class App extends Component {
             <Route exact path='/' component={ Home } />
             <Route path='/new-trivia' component={ NewTrivia } />
             <Route path='/my-trivia' component={ ViewTrivia } />
-            <Route path='/trivia-detail/:id' component= { TriviaDetail } />
+            <Route path='/trivia/:id' component= { TriviaDetail } />
 
             <Route path='/login' component={ Login } />
           </Switch>

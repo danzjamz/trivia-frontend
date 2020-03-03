@@ -62,7 +62,7 @@ export default class Navigation extends Component {
                     <NavLink to='/new-trivia'className="nav-link">New Trivia</NavLink>
 
                 </div>
-                <div className='nav-right'> 
+                <div className='nav-right'>
                     { this.state.user ? 
                         <NavLink to='/' onClick={() => this.logout() } className="nav-link">Logout</NavLink> : 
                         <NavLink to='/login' className="nav-link" onClick={ this.login }>Login</NavLink> 

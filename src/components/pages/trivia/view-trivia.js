@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { TriviaDetail } from './trivia-detail';
+import { Link } from 'react-router-dom';
 
 
 export default class ViewTrivia extends Component {
@@ -25,17 +27,30 @@ export default class ViewTrivia extends Component {
             });
     }
 
+    toTriviaDetail(triviaId) {
+        TriviaDetail(triviaId)
+    }
+
     renderTrivias = () => {
         return this.state.trivias.map(trivia => {
-            return <h3>{ trivia.title }</h3>
+            return (
+                <li className='trivia-item' key={ trivia.id }>
+                    <Link to={'/trivia/' + trivia.id } trivia={ trivia }>
+                        <h1>{ trivia.title }</h1>
+                        <h4>{ trivia.description }</h4>
+                    </Link>
+                </li>
+            )
         })
     }
         
     render() {
         return (
-            <div>
+            <div className='view-trivias-container'>
                 <h1>View Trivia</h1>
-                { this.renderTrivias() }
+                <ul className='trivia-list'>
+                    { this.renderTrivias() }
+                </ul>
             </div>
         )
     }
