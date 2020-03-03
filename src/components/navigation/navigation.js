@@ -17,10 +17,19 @@ export default class Navigation extends Component {
     setUser = () => {
         // get user from local storage
         if (localStorage.user == undefined) {
-            return null
+            return null;
         } else {
-            return localStorage.user
+            return localStorage.user;
         }
+    }
+
+    login = () => {
+        // temp until global state and hooks
+        setTimeout(() => {
+            const user = localStorage.user;
+            if (user !== null)
+                this.setState({ user: user })
+        }, 10000)
     }
 
     logout = () => {
@@ -28,7 +37,7 @@ export default class Navigation extends Component {
             .then(res => {
                 console.log(res);
                 if (res) {
-                    this.setState({ user: null})
+                    this.setState({ user: null});
                 }
             });
     }
@@ -56,7 +65,7 @@ export default class Navigation extends Component {
                 <div className='nav-right'> 
                     { this.state.user ? 
                         <NavLink to='/' onClick={() => this.logout() } className="nav-link">Logout</NavLink> : 
-                        <NavLink to='/login' className="nav-link">Login</NavLink> 
+                        <NavLink to='/login' className="nav-link" onClick={ this.login }>Login</NavLink> 
                     }
                 </div>
 

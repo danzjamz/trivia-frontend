@@ -27,7 +27,9 @@ export default class Login extends Component {
                     // to keep user logged in between page refreshes
                     user.authdata = window.btoa(username + ':' + password);
                     localStorage.setItem('user', JSON.stringify(user));
-                    this.setState({ error: '' })
+
+                    this.setState({ error: '' });
+                    // this.props.onLogin(user);
 
                     console.log('yoyoyo', user)
                 }
