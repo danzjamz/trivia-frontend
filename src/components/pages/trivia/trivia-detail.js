@@ -18,7 +18,7 @@ export function TriviaDetail(props) {
         });
     }
 
-    const renderAnswers = (question) => { // ADD CORRECT ANSWER TAG IN DB
+    const renderAnswers = (question) => {
         return question.answers.map(answer => {
             return (
                 <li className={'answer ' + (answer.isCorrectAnswer ? 'correct' : 'incorrect')}>{ answer.answer }</li>
