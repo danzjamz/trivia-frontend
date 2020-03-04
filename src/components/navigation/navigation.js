@@ -1,25 +1,52 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-// import styles from '../../../style/navbar.module.css';
+import logout from '../pages/user/logout';
 
 export default class Navigation extends Component {
-    constructor(props) {
+    constructor() {
         super();
 
         this.state = {
-            isToggle: false,
-            burgerActiveClass: '',
-            navActiveClass: ''
+            isToggle: true,
+            navActiveClass: '',
+            user: this.setUser()
         }
     }
 
-    toggleBurger = () => {
-        console.log('toggleburger')
-        if (this.state.isToggle) {
-            this.setState({ isToggle: false, navActiveClass: 'nav-active', burgerActiveClass: 'burger-active' })
+    setUser = () => {
+        // get user from local storage
+        if (localStorage.user == undefined) {
+            return null;
         } else {
-            this.setState({ isToggle: true, navActiveClass: '', burgerActiveClass: '' })
+            return localStorage.user;
+        }
+    }
+
+    login = () => {
+        // temp until global state and hooks
+        setTimeout(() => {
+            const user = localStorage.user;
+            if (user !== null)
+                this.setState({ user: user })
+        }, 10000)
+    }
+
+    logout = () => {
+        logout(this.state.user)
+            .then(res => {
+                console.log(res);
+                if (res) {
+                    this.setState({ user: null});
+                }
+            });
+    }
+
+    toggleBurger = () => {
+        if (this.state.isToggle) {
+            this.setState({ isToggle: false, navActiveClass: 'nav-active' })
+        } else {
+            this.setState({ isToggle: true, navActiveClass: '' })
         }
     }
 
@@ -36,8 +63,10 @@ export default class Navigation extends Component {
 
                 </div>
                 <div className='nav-right'>
-                    <NavLink to='/login'className="nav-link">Login</NavLink>
-
+                    { this.state.user ? 
+                        <NavLink to='/' onClick={() => this.logout() } className="nav-link">Logout</NavLink> : 
+                        <NavLink to='/login' className="nav-link" onClick={ this.login }>Login</NavLink> 
+                    }
                 </div>
 
             </div>

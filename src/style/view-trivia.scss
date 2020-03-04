@@ -1,0 +1,29 @@
+.view-trivias-container {
+    .trivia-item {
+        font-family: 'Montserrat', sans-serif;
+        border-bottom: 1px solid $darkpurple;
+
+        a {
+            text-decoration: none;
+            color: $darkergreen;
+        }
+        
+        h1 {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        h4 {
+            padding-left: 1em;
+        }
+    }
+
+    h2 {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+
+ul li {
+    list-style-type: none;
+}

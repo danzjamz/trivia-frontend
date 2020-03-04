@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { TriviaDetail } from './trivia-detail';
+import { Link } from 'react-router-dom';
 
 
 export default class ViewTrivia extends Component {
@@ -8,10 +10,10 @@ export default class ViewTrivia extends Component {
         this.state = {
             trivias: [ ]
         }
-
-        // console.log('state', this.state.trivias.)
-        this.getTrivias()
-        console.log('state', this.state.trivias)
+    }
+    
+    componentWillMount() {
+        this.getTrivias();
     }
 
     getTrivias() {
@@ -20,19 +22,31 @@ export default class ViewTrivia extends Component {
                 return response.json();
             })
             .then((myJson) => {
-                console.log(myJson.trivias)
-                // return myJson.trivias;
-                // this.setState({ trivias: myJson.trivias})
-                // console.log(this.state.trivias)
+                console.log(myJson.trivias);
+                this.setState({ trivias: myJson.trivias});
             });
+    }
+
+    renderTrivias = () => {
+        return this.state.trivias.map(trivia => {
+            return (
+                <li className='trivia-item' key={ trivia.id }>
+                    <Link to={{ pathname: `/trivia/${trivia.id}`,  trivia: trivia }}>
+                        <h1>{ trivia.title }</h1>
+                        <h4>{ trivia.description }</h4>
+                    </Link>
+                </li>
+            )
+        })
     }
         
     render() {
         return (
-            <div>
-                <h1>View Trivia</h1>
-                {/* <h3>{trivias[0].title}</h3> */}
-                {/* {trivias ? <h3>{trivias[0].title}</h3> : null} */}
+            <div className='view-trivias-container'>
+                <h2>My Trivia</h2>
+                <ul className='trivia-list'>
+                    { this.renderTrivias() }
+                </ul>
             </div>
         )
     }

@@ -1,0 +1,48 @@
+.trivia-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .heading {
+        font-family: 'Raleway', sans-serif;
+        width: 80%;
+    }
+
+    .questions-container {
+
+        .questions {
+            
+            .answers {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: .25em;
+                padding-bottom: 2em;
+                border-bottom: 1px solid $lightpurple;
+
+                .answer {
+                    padding: 1em;
+                    font-family: 'Raleway', sans-serif;
+                }
+                .correct {
+                    background-color: $lightgreen;
+                }
+                .incorrect {
+                    background-color: #F6CCD2;
+                }
+            }
+        }
+    }
+
+    .settings {
+        p {
+            padding-left: 40px;
+            font-family: 'Raleway', sans-serif;
+        }
+    }
+
+    .questions-container, .settings {
+        width: 90%;
+        font-family: 'Montserrat', sans-serif;
+    }
+}
