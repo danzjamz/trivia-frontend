@@ -53,28 +53,33 @@
     }
 
     .continue-btn {
-        @include flexbox-col();
+        align-self: center;
+        width: 8em;
         background-color: white;
-        padding: 1em;
+        padding: .75em 0;
         margin: 0 5em;
         max-width: 8em;
         border: 1px solid $darkergreen;
+        border-radius: 10px;
         box-shadow: 0 0 0 2px white;
 
-        a {
-            color: $darkergreen;
-            font-size: 1.25em;
-            text-decoration: none;
-        }
+        color: $darkergreen;
+        font-size: 1.25em;
+        text-decoration: none;
 
         &:hover {
+            background-color: $darkgreen;
+            color: white;
             box-shadow: 0 0 0 2px $darkgreen;
             border: 1px solid white;
-            background-color: $darkgreen;
         }
 
-        &:hover a {
-            color: white;
+        &:active {
+            background-color: $darkergreen;
+        }
+
+        &:focus {
+            outline: none;
         }
     }
 }
