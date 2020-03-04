@@ -6,25 +6,29 @@
 
     .heading {
         font-family: 'Raleway', sans-serif;
-
+        width: 80%;
     }
 
     .questions-container {
-        // width: 90%;
 
         .questions {
             
-            .answers-container {
+            .answers {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: .25em;
                 padding-bottom: 2em;
                 border-bottom: 1px solid $lightpurple;
 
-                .answers {
+                .answer {
                     padding: 1em;
-                    background-color: $lightgreen;
                     font-family: 'Raleway', sans-serif;
+                }
+                .correct {
+                    background-color: $lightgreen;
+                }
+                .incorrect {
+                    background-color: #F6CCD2;
                 }
             }
         }

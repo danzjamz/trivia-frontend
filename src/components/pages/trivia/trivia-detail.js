@@ -3,7 +3,6 @@ import React from 'react';
 
 export function TriviaDetail(props) {
     const trivia = props.location.trivia;
-    console.log(trivia)
 
     const renderQuestions = () => {
         return trivia.questions.map(question => {
@@ -11,7 +10,7 @@ export function TriviaDetail(props) {
                 <li>
                     <h4>{ question.question }</h4>
                     <h5>Answers</h5>
-                    <ul className="answers-container">
+                    <ul className="answers">
                         { renderAnswers(question) }
                     </ul>
                 </li>
@@ -22,7 +21,7 @@ export function TriviaDetail(props) {
     const renderAnswers = (question) => { // ADD CORRECT ANSWER TAG IN DB
         return question.answers.map(answer => {
             return (
-                <li className="answers">{ answer.answer }</li>
+                <li className={'answer ' + (answer.isCorrectAnswer ? 'correct' : 'incorrect')}>{ answer.answer }</li>
             );
         });
     }

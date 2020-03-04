@@ -43,7 +43,7 @@ export default class ViewTrivia extends Component {
     render() {
         return (
             <div className='view-trivias-container'>
-                <h1>View Trivia</h1>
+                <h2>My Trivia</h2>
                 <ul className='trivia-list'>
                     { this.renderTrivias() }
                 </ul>
