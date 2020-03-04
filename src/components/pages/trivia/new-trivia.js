@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 
 export default class NewTrivia extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             user_id: 1,
@@ -27,6 +27,8 @@ export default class NewTrivia extends Component {
 
     submitForm = (event) => {
         console.log('in submit')
+        // fetch('http://127.0.0.1:4200/trivia')
+        this.props.history.push('/new-trivia/questions');
         event.preventDefault();
     }
 
