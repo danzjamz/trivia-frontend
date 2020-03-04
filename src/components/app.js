@@ -5,11 +5,12 @@ import "regenerator-runtime/runtime";
 require("regenerator-runtime/path").path
 
 import Navigation from './navigation/navigation';
+import { Home } from './home';
 import Login from './pages/user/login';
 import ViewTrivia from './pages/trivia/view-trivia';
-import { Home } from './home';
-import { NewTrivia } from './pages/trivia/new-trivia';
 import { TriviaDetail } from './pages/trivia/trivia-detail';
+import NewTrivia from './pages/trivia/new-trivia';
+import NewQuestion from './pages/trivia/new-question';
 
 export default class App extends Component {
   render() {
@@ -20,6 +21,7 @@ export default class App extends Component {
 
           <Switch>
             <Route exact path='/' component={ Home } />
+            <Route exact path='/new-trivia/questions' component={ NewQuestion } />
             <Route path='/new-trivia' component={ NewTrivia } />
             <Route path='/my-trivia' component={ ViewTrivia } />
             <Route path='/trivia/:id' component= { TriviaDetail } />

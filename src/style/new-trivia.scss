@@ -1,0 +1,80 @@
+.new-trivia-container {
+    @include flexbox-col();
+
+    .new-trivia-title, label {
+        padding-bottom: .5em;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .new-trivia-wrapper {
+        width: 60%;
+        padding: 2em 1em;
+        background-color: $lightgreen;
+        
+        form {
+            @include flexbox-col();
+            width: 100%;
+        }
+
+        div {
+            align-self: center;
+            width: 90%;
+        }
+
+        input {
+            padding: .25em .5em;
+            font-size: 1.75em;
+            border-radius: 10px;
+            border: 1px solid $darkergreen;
+        }
+        
+        textarea {
+            padding: .25em .5em;
+            font-size: 1.25em;
+            border-radius: 10px;
+            border: 1px solid $darkergreen;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+        }
+    }
+
+    .new-trivia-wrapper, .new-trivia-wrapper div {
+        display: flex;
+        flex-direction: column;
+        margin: 1em;
+        border-radius: 10px;
+
+        .form-el {
+            margin: .5em;
+        }
+
+    }
+
+    .continue-btn {
+        @include flexbox-col();
+        background-color: white;
+        padding: 1em;
+        margin: 0 5em;
+        max-width: 8em;
+        border: 1px solid $darkergreen;
+        box-shadow: 0 0 0 2px white;
+
+        a {
+            color: $darkergreen;
+            font-size: 1.25em;
+            text-decoration: none;
+        }
+
+        &:hover {
+            box-shadow: 0 0 0 2px $darkgreen;
+            border: 1px solid white;
+            background-color: $darkgreen;
+        }
+
+        &:hover a {
+            color: white;
+        }
+    }
+}
