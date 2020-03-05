@@ -45,12 +45,16 @@
 
     .nav-burger{
         display: none;
+        max-width: 50px;
         .burger {
             padding: 1rem;
             color: white;
-    
+            
             &:hover {
-                background-color: $darkpurple;
+                margin-left: 1.15em;
+                padding: .85rem;
+                font-size: 1.25em;
+                border: 1px dotted white;
             }
         }
     }
@@ -64,8 +68,11 @@
             
             .burger {
                 margin-left: 1.5em;
-                border: 1px dotted white;
+                padding: .85em;
+                padding-bottom: none;
                 border-radius: 8px;
+                font-size: 1em;
+                transition: 1s ease-in-out;
             }
         }
         
@@ -73,7 +80,7 @@
             display: none;
         }
     }
-
+    
     .nav-active {
         display: flex;
         flex-direction: column;
@@ -86,7 +93,7 @@
             display: flex;
             flex-direction: column;
         }
-
+        
         .nav-link {
             display: block;
             margin: 0;
@@ -95,21 +102,27 @@
             width: 100vw;
             border-top: .5px solid $darkpurple; 
         }
-
+        
         .active-nav-link {
             border-right: none !important;
             border-left: 3px dotted white;
-            transition: none;
+            // transition: none;
             font-size: 1.2rem;
         }
-
+        
         .nav-burger {
             margin-bottom: 1rem;
             padding-top: 1.22rem;
             
             .burger {
+                margin-left: 1.15em;
+                padding: .85rem;
                 border: 1px solid white;
+                font-size: 1.25em;
+                transition: 1s ease-in-out;
             }
+
+            
         }
     }
 }
