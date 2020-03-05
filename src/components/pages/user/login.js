@@ -79,8 +79,20 @@ export default class Login extends Component {
                     <h1>Login</h1>
                     <form onSubmit={ this.submitHandler } className='form'>
                         <p className="error">{ this.state.error }</p>
-                        <input type="text" name="username" placeholder="username" value={ this.state.username } onChange={ this.changeHandler } />
-                        <input type="password" name="password" placeholder="password" value={ this.state.password } onChange={ this.changeHandler } />
+                        <input 
+                            type="text" 
+                            name="username" 
+                            placeholder="username" 
+                            value={ this.state.username } 
+                            onChange={ this.changeHandler } 
+                        />
+                        <input 
+                            type="password" 
+                            name="password" 
+                            placeholder="password" 
+                            value={ this.state.password } 
+                            onChange={ this.changeHandler } 
+                        />
                         <button type="submit">Login</button>
                     </form>
                 </div>

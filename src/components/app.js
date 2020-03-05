@@ -5,12 +5,12 @@ import "regenerator-runtime/runtime";
 require("regenerator-runtime/path").path
 
 import Navigation from './navigation/navigation';
-import { Home } from './home';
 import Login from './pages/user/login';
 import ViewTrivia from './pages/trivia/view-trivia';
 import { TriviaDetail } from './pages/trivia/trivia-detail';
 import NewTrivia from './pages/trivia/new-trivia';
 import NewQuestion from './pages/trivia/new-question';
+import Home from './pages/home';
 
 export default class App extends Component {
   render() {

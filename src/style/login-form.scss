@@ -12,6 +12,7 @@
     padding-bottom: 2em;
     width: 22em;
     background-color: $lightgreen;
+    border-radius: 8px;
 }
 
 .form-wrapper, .form {
@@ -23,8 +24,9 @@
     padding: .75em;
     width: 15em;
     font-size: 1em;
-    background-color: floralwhite;
+    background-color: white;
     border: none;
+    border-radius: 8px;
 
     &:focus {
         outline: none;
@@ -32,26 +34,9 @@
 }
 
 .form button {
-    margin: 1em;
-    margin-top: 1.5em;
-    padding: 0 .5em;
-    width: 50%;
-    height: 3em;
-    font-size: 1em;
-    font-family: 'Raleway', sans-serif;
-    border: none;
-    border-radius: 8px;
-    background-color: floralwhite;
+    @include button();
 
-    &:focus {
-        outline: none;
-    }
-    &:hover {
-        background-color: $darkgreen;
-    }
-    &:active {
-        background-color: $darkergreen;
-    }
+    margin-top: 1.5em;
 }
 
 h1 {
