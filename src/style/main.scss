@@ -3,6 +3,7 @@
 @import './base.scss';
 @import './navbar.scss';
 @import './login-form.scss';
-@import './view-trivia.scss';
-@import './trivia-detail.scss';
-@import './new-trivia.scss';
+@import './trivia-styles/view-trivia.scss';
+@import './trivia-styles/trivia-detail.scss';
+@import './trivia-styles/new-trivia.scss';
+@import './trivia-styles/question-form.scss';
