@@ -31,7 +31,7 @@ export default class Login extends Component {
                     this.setState({ error: '' });
                     // this.props.onLogin(user);
 
-                    console.log('yoyoyo', user)
+                    console.log('yoyoyo', user);
                 }
                 return user;
             }).catch(err => {
@@ -68,6 +68,7 @@ export default class Login extends Component {
 
     submitHandler = (event) => {
         this.login(this.state.username, this.state.password);
+        this.props.history.push('/');
         event.preventDefault();
     }
 

@@ -8,26 +8,60 @@ export default class NewTrivia extends Component {
         super(props);
 
         this.state = {
-            user_id: 1,
-            title: '',
-            description: '',
-            questions: '',
-            isOpen: false,
-            shouldWait: false
+            trivia: {
+                user_id: 1,
+                title: '',
+                description: '',
+                questions: '',
+                isOpen: false,
+                shouldWait: false
+            },
+            user: this.getUser()
         }
     }
 
     handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({ 
+           trivia: { ...this.state.trivia, [event.target.name]: event.target.value }
+        });
     }
 
     handleCheck = (event) => {
-        this.setState({ [event.target.name]: event.target.checked });
+        this.setState({ 
+            trivia: { ...this.state.trivia, [event.target.name]: event.target.checked } 
+        });
+    }
+
+    getUser = () => {
+        // get user from local storage
+        if (localStorage.user == undefined) {
+            return null;
+        } else {
+            return localStorage.user;
+        }
+    }
+
+    postNewTrivia = () => {
+        if (this.state.user) {
+            const token = JSON.parse(this.state.user).access_token;
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                mode: 'cors',
+                body: JSON.stringify(this.state.trivia)
+            };
+    
+            fetch('http://127.0.0.1:4200/trivia', requestOptions)
+                .then(res => {
+                    console.log(res);
+                });
+        } else {
+            console.log('User not logged in!')
+        }
     }
 
     submitForm = (event) => {
-        console.log('in submit')
-        // fetch('http://127.0.0.1:4200/trivia')
+        this.postNewTrivia();
         this.props.history.push('/new-trivia/questions');
         event.preventDefault();
     }
