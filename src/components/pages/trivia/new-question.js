@@ -20,13 +20,19 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...this.state.answers, answer] })
     }
 
-    // updateAnswer = (answer) => {
-    //     for (ans in this.state.answers) {
-    //         if (this.state.answers[ans].id === answer.id) {
-    //             this.setState({ answers: [ans].answer  })
-    //         }
-    //     }
-    // }
+    updateAnswer = (event, answerId) => {
+        const newAnswer = event.target.value;
+
+        const newAnswers = this.state.answers.map((answer, index) => {
+            if (answer.id === answerId) {
+                answer.answer = newAnswer;
+            }
+            return answer;
+        });
+
+        this.setState({ answers: [...newAnswers] });
+        console.log(this.state.answers)
+    }
 
     deleteAnswer = (answerId) => {
         const newAnswers = this.state.answers.filter(answer => {
@@ -71,7 +77,7 @@ export default class NewQuestion extends Component {
                     </label> */}
                     <NewAnswer addAnswer={ this.addAnswer } />
                     <div>
-                        <Answers answers={ this.state.answers } deleteAnswer={ this.deleteAnswer } />
+                        <Answers answers={ this.state.answers } updateAnswer={ this.updateAnswer } deleteAnswer={ this.deleteAnswer } />
                     </div>
 {/*                     
                      <button type='button' onClick={ this.addNewAnswerInput }>Add Answer</button>

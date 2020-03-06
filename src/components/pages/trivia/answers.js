@@ -1,13 +1,19 @@
 import React from 'react';
 
-export default function Answers({ answers, deleteAnswer }) {
+export default function Answers({ answers, updateAnswer, deleteAnswer }) {
 
     const answerList = answers.length ? (
         answers.map(answer => {
             return (
                 <div key={answer.id}>
                     <div>
-                        { answer.answer }
+                        {/* { answer.answer } */}
+                        <input
+                            name='answer'
+                            type='text'
+                            value={ answer.answer }
+                            onChange={ (event) => updateAnswer(event, answer.id) }
+                        />
                     </div>
                     <label>
                         { answer.isCorrectAnswer ? 'Correct Answer' : 'Incorrect Answer' }
