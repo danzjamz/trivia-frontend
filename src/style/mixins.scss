@@ -5,6 +5,13 @@
     align-items: center;
 }
 
+@mixin input {
+    padding: .25em .5em;
+    font-size: 1.75em;
+    border-radius: 10px;
+    border: 1px solid $darkergreen;
+}
+
 @mixin button {
     align-self: center;
         width: 8em;

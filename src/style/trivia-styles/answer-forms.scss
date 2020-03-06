@@ -1,0 +1,8 @@
+.new-answer-form form {
+    // display: flex;
+    // flex-direction: row;
+
+    input {
+        @include input();
+    }
+}

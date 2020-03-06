@@ -87,7 +87,9 @@ export default class NewQuestion extends Component {
                         </input>
                         Timed Question
                     </label> */}
-                    <NewAnswer addAnswer={ this.addAnswer } />
+                    <div className='new-answer-form'>
+                        <NewAnswer addAnswer={ this.addAnswer } />
+                    </div>
                     <div>
                         <Answers 
                             answers={ this.state.answers } 
