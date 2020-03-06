@@ -20,6 +20,14 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...this.state.answers, answer] })
     }
 
+    // updateAnswer = (answer) => {
+    //     for (ans in this.state.answers) {
+    //         if (this.state.answers[ans].id === answer.id) {
+    //             this.setState({ answers: [ans].answer  })
+    //         }
+    //     }
+    // }
+
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
     }

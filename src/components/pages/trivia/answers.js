@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default function Answers({answers}) {
-    console.log(answers)
+export default function Answers({ answers }) {
 
     const answerList = answers.length ? (
         answers.map(answer => {
@@ -11,8 +10,7 @@ export default function Answers({answers}) {
                         { answer.answer }
                     </div>
                     <label>
-                        <input type='checkbox' checked={ answer.isCorrectAnswer }></input>
-                        Correct Answer
+                        { answer.isCorrectAnswer ? 'Correct Answer' : 'Incorrect Answer' }
                     </label>
                 </div>
             )
