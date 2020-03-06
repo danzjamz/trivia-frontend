@@ -1,13 +1,12 @@
 import React from 'react';
 
-export default function Answers({ answers, updateAnswer, deleteAnswer }) {
+export default function Answers({ answers, updateAnswer, updateCheck, deleteAnswer }) {
 
     const answerList = answers.length ? (
         answers.map(answer => {
             return (
                 <div key={answer.id}>
                     <div>
-                        {/* { answer.answer } */}
                         <input
                             name='answer'
                             type='text'
@@ -16,6 +15,12 @@ export default function Answers({ answers, updateAnswer, deleteAnswer }) {
                         />
                     </div>
                     <label>
+                        <input
+                            name='isCorrectAnswer'
+                            type='checkbox'
+                            checked={ answer.isCorrectAnswer }
+                            onChange={ (event) => updateCheck(event, answer.id) }
+                        />
                         { answer.isCorrectAnswer ? 'Correct Answer' : 'Incorrect Answer' }
                     </label>
                     <button type='button' onClick={ () => deleteAnswer(answer.id) }>Delete</button>

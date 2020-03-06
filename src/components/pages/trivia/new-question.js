@@ -23,7 +23,7 @@ export default class NewQuestion extends Component {
     updateAnswer = (event, answerId) => {
         const newAnswer = event.target.value;
 
-        const newAnswers = this.state.answers.map((answer, index) => {
+        const newAnswers = this.state.answers.map(answer => {
             if (answer.id === answerId) {
                 answer.answer = newAnswer;
             }
@@ -31,7 +31,19 @@ export default class NewQuestion extends Component {
         });
 
         this.setState({ answers: [...newAnswers] });
-        console.log(this.state.answers)
+    }
+
+    updateCheck = (event, answerId) => {
+        const newCheck = event.target.checked;
+
+        const newAnswers = this.state.answers.map(answer => {
+            if (answer.id === answerId) {
+                answer.isCorrectAnswer = newCheck;
+            }
+            return answer;
+        });
+        
+        this.setState({ answers: [...newAnswers] });
     }
 
     deleteAnswer = (answerId) => {
@@ -77,7 +89,12 @@ export default class NewQuestion extends Component {
                     </label> */}
                     <NewAnswer addAnswer={ this.addAnswer } />
                     <div>
-                        <Answers answers={ this.state.answers } updateAnswer={ this.updateAnswer } deleteAnswer={ this.deleteAnswer } />
+                        <Answers 
+                            answers={ this.state.answers } 
+                            updateAnswer={ this.updateAnswer } 
+                            updateCheck={ this.updateCheck } 
+                            deleteAnswer={ this.deleteAnswer } 
+                        />
                     </div>
 {/*                     
                      <button type='button' onClick={ this.addNewAnswerInput }>Add Answer</button>
