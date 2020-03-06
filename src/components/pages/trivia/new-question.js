@@ -12,7 +12,7 @@ export default class NewQuestion extends Component {
             question: '',
             category: '',
             isTimed: false,
-            answers: [ { id: 1, answer: 'answer1', isCorrectAnswer: false }, { id: 2, answer: 'answer2', isCorrectAnswer: true } ]
+            answers: [  ]
         }
     }
 
@@ -27,6 +27,13 @@ export default class NewQuestion extends Component {
     //         }
     //     }
     // }
+
+    deleteAnswer = (answerId) => {
+        const newAnswers = this.state.answers.filter(answer => {
+            return answer.id !== answerId;
+        });
+        this.setState({ answers: [...newAnswers] });
+    }
 
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
@@ -64,7 +71,7 @@ export default class NewQuestion extends Component {
                     </label> */}
                     <NewAnswer addAnswer={ this.addAnswer } />
                     <div>
-                        <Answers answers={ this.state.answers } />
+                        <Answers answers={ this.state.answers } deleteAnswer={ this.deleteAnswer } />
                     </div>
 {/*                     
                      <button type='button' onClick={ this.addNewAnswerInput }>Add Answer</button>

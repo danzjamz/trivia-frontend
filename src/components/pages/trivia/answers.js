@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Answers({ answers }) {
+export default function Answers({ answers, deleteAnswer }) {
 
     const answerList = answers.length ? (
         answers.map(answer => {
@@ -12,11 +12,12 @@ export default function Answers({ answers }) {
                     <label>
                         { answer.isCorrectAnswer ? 'Correct Answer' : 'Incorrect Answer' }
                     </label>
+                    <button type='button' onClick={ () => deleteAnswer(answer.id) }>Delete</button>
                 </div>
             )
         })
     ) : (
-        <p>No answers yet</p>
+        <p> Add some answers! </p>
     )
 
     return (

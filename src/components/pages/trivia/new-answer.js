@@ -4,7 +4,7 @@ export default class NewAnswer extends Component {
     state = {
         answer: '',
         isCorrectAnswer: false,
-        id: 3
+        id: 0
     }
 
     handleChange = (event) => {
