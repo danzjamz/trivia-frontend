@@ -5,7 +5,7 @@ export default function Answers({ answers, updateAnswer, updateCheck, deleteAnsw
     const answerList = answers.length ? (
         answers.map(answer => {
             return (
-                <div key={answer.id}>
+                <div className='answer-wrapper' key={answer.id}>
                     <div>
                         <input
                             name='answer'
@@ -14,16 +14,18 @@ export default function Answers({ answers, updateAnswer, updateCheck, deleteAnsw
                             onChange={ (event) => updateAnswer(event, answer.id) }
                         />
                     </div>
-                    <label>
-                        <input
-                            name='isCorrectAnswer'
-                            type='checkbox'
-                            checked={ answer.isCorrectAnswer }
-                            onChange={ (event) => updateCheck(event, answer.id) }
-                        />
-                        { answer.isCorrectAnswer ? 'Correct Answer' : 'Incorrect Answer' }
-                    </label>
-                    <button type='button' onClick={ () => deleteAnswer(answer.id) }>Delete</button>
+                    <div className='answer-items'>
+                        <label>
+                            <input
+                                name='isCorrectAnswer'
+                                type='checkbox'
+                                checked={ answer.isCorrectAnswer }
+                                onChange={ (event) => updateCheck(event, answer.id) }
+                            />
+                            { answer.isCorrectAnswer ? 'Correct Answer' : 'Incorrect Answer' }
+                        </label>
+                        <button type='button' onClick={ () => deleteAnswer(answer.id) }>Delete</button>
+                    </div>
                 </div>
             )
         })
@@ -32,7 +34,7 @@ export default function Answers({ answers, updateAnswer, updateCheck, deleteAnsw
     )
 
     return (
-        <div>
+        <div className='answers-container'>
             { answerList }
         </div>
     )

@@ -24,10 +24,7 @@
         }
         
         textarea {
-            padding: .25em .5em;
-            font-size: 1.25em;
-            border-radius: 10px;
-            border: 1px solid $darkgreen;
+            @include input();
         }
 
         textarea:focus {

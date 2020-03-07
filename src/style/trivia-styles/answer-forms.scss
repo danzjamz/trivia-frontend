@@ -1,15 +1,25 @@
 .new-answer-form form {
-    // display: flex;
-    // flex-direction: row;
 
     input {
         @include input();
+        font-size: 1.25em !important;
     }
-
+    
     .form-items {
         display: flex;
         justify-content: space-between;
         padding: 1em;
         width: 100%;
     }
+}
+
+.answer-items {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em !important;
+    width: inherit;
+}
+
+.answers-container, .answer-wrapper {
+    padding-top: 0 !important;
 }
