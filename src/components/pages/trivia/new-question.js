@@ -65,45 +65,48 @@ export default class NewQuestion extends Component {
         return (
             <div className='question-container'>
                 <h1 className='heading'>New Question</h1>
-                <form>
-                    {/* <input 
-                        name='question' 
-                        value={ this.state.question.question } 
-                        placeholder='question'
-                        onChange={ this.handleChange }>
-                    </input>
-                    <input 
-                        name='category' 
-                        value={ this.state.question.category } 
-                        placeholder='category'
-                        onChange={ this.handleChange }>
-                    </input>
-                    <label>
-                        <input
-                            type='checkbox'
-                            name='isTimed'
-                            value={ this.state.question.isTimed }
-                            onChange={ this.handleCheck }>
+                
+                <div className='question-wrapper'>
+                    <form>
+                        <input 
+                            name='question' 
+                            value={ this.state.question.question } 
+                            placeholder='question'
+                            onChange={ this.handleChange }>
                         </input>
-                        Timed Question
-                    </label> */}
-                    <div className='new-answer-form'>
-                        <NewAnswer addAnswer={ this.addAnswer } />
-                    </div>
-                    <div>
-                        <Answers 
-                            answers={ this.state.answers } 
-                            updateAnswer={ this.updateAnswer } 
-                            updateCheck={ this.updateCheck } 
-                            deleteAnswer={ this.deleteAnswer } 
-                        />
-                    </div>
-{/*                     
-                     <button type='button' onClick={ this.addNewAnswerInput }>Add Answer</button>
+                        <input 
+                            name='category' 
+                            value={ this.state.question.category } 
+                            placeholder='category'
+                            onChange={ this.handleChange }>
+                        </input>
+                        <label>
+                            <input
+                                type='checkbox'
+                                name='isTimed'
+                                value={ this.state.question.isTimed }
+                                onChange={ this.handleCheck }
+                            />
+                            Timed Question
+                        </label>
+                        <div className='new-answer-form'>
+                            <NewAnswer addAnswer={ this.addAnswer } />
+                        </div>
+                        <div>
+                            <Answers 
+                                answers={ this.state.answers } 
+                                updateAnswer={ this.updateAnswer } 
+                                updateCheck={ this.updateCheck } 
+                                deleteAnswer={ this.deleteAnswer } 
+                            />
+                        </div>
+    {/*                     
+                        <button type='button' onClick={ this.addNewAnswerInput }>Add Answer</button>
 
-                     <button type='submit'>Submit and Add another question</button>
-                     <button type='submit'>Submit and Finish</button> */}
-                </form>
+                        <button type='submit'>Submit and Add another question</button>
+                        <button type='submit'>Submit and Finish</button> */}
+                    </form>
+                </div>
             </div>
         )
     }

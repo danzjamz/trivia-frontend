@@ -7,10 +7,7 @@
     }
     
     .new-trivia-wrapper {
-        width: 60%;
-        max-width: 40em;
-        padding: 2em 1em;
-        background-color: $lightgreen;
+        @include form-wrapper();
         
         form {
             @include flexbox-col();
@@ -30,11 +27,12 @@
             padding: .25em .5em;
             font-size: 1.25em;
             border-radius: 10px;
-            border: 1px solid $darkergreen;
+            border: 1px solid $darkgreen;
         }
 
-        input:focus, textarea:focus {
+        textarea:focus {
             outline: none;
+            border-color: $darkergreen;
         }
     }
 
@@ -42,7 +40,6 @@
         display: flex;
         flex-direction: column;
         margin: 1em;
-        border-radius: 10px;
 
         .form-el {
             margin: .5em;

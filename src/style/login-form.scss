@@ -9,10 +9,7 @@
 }
 
 .form-wrapper {
-    padding-bottom: 2em;
-    width: 22em;
-    background-color: $lightgreen;
-    border-radius: 8px;
+    @include form-wrapper();
 }
 
 .form-wrapper, .form {

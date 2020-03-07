@@ -36,16 +36,18 @@ export default class NewAnswer extends Component {
                     value={ this.state.answer }
                     onChange={ this.handleChange } 
                 />
-                <label>
-                    <input
-                        type='checkbox'
-                        name='isCorrectAnswer'
-                        checked={ this.state.isCorrectAnswer }
-                        onChange={ this.handleCheck }
-                    />
-                    Correct Answer
-                </label>
-                <button type='submit'>+</button>
+                <div className='form-items'>
+                    <label>
+                        <input
+                            type='checkbox'
+                            name='isCorrectAnswer'
+                            checked={ this.state.isCorrectAnswer }
+                            onChange={ this.handleCheck }
+                        />
+                        Correct Answer
+                    </label>
+                    <button type='submit'>+</button>
+                </div>
             </form>
         )
     }

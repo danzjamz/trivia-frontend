@@ -5,4 +5,11 @@
     input {
         @include input();
     }
+
+    .form-items {
+        display: flex;
+        justify-content: space-between;
+        padding: 1em;
+        width: 100%;
+    }
 }

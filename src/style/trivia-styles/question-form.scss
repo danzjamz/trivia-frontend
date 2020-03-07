@@ -1,11 +1,22 @@
 .question-container {
     @include flexbox-col();
 
-    .heading {
+    h1 {
+        padding-bottom: .5em;
         font-family: 'Montserrat', sans-serif;
     }
 
-    form {
+    .question-wrapper {
         @include flexbox-col();
+        @include form-wrapper();
+        
+    
+        .heading {
+            font-family: 'Montserrat', sans-serif;
+        }
+    
+        form {
+            @include flexbox-col();
+        }
     }
 }
