@@ -4,8 +4,8 @@ import NewAnswer from './new-answer';
 import Answers from './answers';
 
 export default class NewQuestion extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             trivia_id: 3,
@@ -13,7 +13,7 @@ export default class NewQuestion extends Component {
             category: '',
             isTimed: false,
             time: 0,
-            answers: [  ],
+            answers: [  ]
         }
     }
 
@@ -54,6 +54,23 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...newAnswers] });
     }
 
+    submitAndAddNewQ = (event) => {
+        this.setState({
+            question: '',
+            category: '',
+            isTimed: false,
+            time: 0,
+            answers: [  ]
+        });
+        this.props.history.push('/new-trivia/questions')
+        event.preventDefault();
+    }
+    
+    submitAndFinish = (event) => {
+        this.props.history.push('/my-trivia')
+        event.preventDefault();
+    }
+
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
     }
@@ -72,7 +89,7 @@ export default class NewQuestion extends Component {
                         <div>
                             <textarea 
                                 name='question' 
-                                value={ this.state.question.question } 
+                                value={ this.state.question } 
                                 placeholder='question'
                                 rows='5'
                                 onChange={ this.handleChange }
@@ -81,7 +98,7 @@ export default class NewQuestion extends Component {
                         <div>
                             <input 
                                 name='category' 
-                                value={ this.state.question.category } 
+                                value={ this.state.category } 
                                 placeholder='category'
                                 onChange={ this.handleChange }>
                             </input>
@@ -91,7 +108,7 @@ export default class NewQuestion extends Component {
                                 <input
                                     type='checkbox'
                                     name='isTimed'
-                                    value={ this.state.question.isTimed }
+                                    value={ this.state.isTimed }
                                     onChange={ this.handleCheck }
                                 />
                                 Timed Question
@@ -120,11 +137,11 @@ export default class NewQuestion extends Component {
                             updateCheck={ this.updateCheck } 
                             deleteAnswer={ this.deleteAnswer } 
                         />
-    {/*                     
-                        <button type='button' onClick={ this.addNewAnswerInput }>Add Answer</button>
 
-                        <button type='submit'>Submit and Add another question</button>
-                        <button type='submit'>Submit and Finish</button> */}
+                        <div className='submit-btns'>
+                            <button type='submit' onClick={ this.submitAndAddNewQ }>Submit and Add Another Question</button>
+                            <button type='submit' onClick={ this.submitAndFinish }>Submit and Finish</button> 
+                        </div>
                     </form>
                 </div>
             </div>
