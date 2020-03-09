@@ -8,14 +8,24 @@ export default class NewQuestion extends Component {
         super(props);
 
         this.state = {
+            trivia_id: 3,
             question: {
-                trivia_id: 3,
                 question: '',
                 category: '',
-                isTimed: false,
+                is_timed: false,
                 time: 0
             },
-            answers: [  ]
+            answers: [  ],
+            user: this.getUser()
+        }
+    }
+
+    getUser = () => {
+        // get user from local storage
+        if (localStorage.user == undefined) {
+            return null;
+        } else {
+            return localStorage.user;
         }
     }
 
@@ -57,34 +67,40 @@ export default class NewQuestion extends Component {
     }
 
     postNewQuestion = () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-            body: this.state
+        if (this.state.user) {
+            const token = JSON.parse(this.state.user).access_token;
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify(this.state.question)
+            };
+    
+            fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question`, requestOptions)
+                .then(response => {
+                    console.log(response);
+                }).catch(err => {
+                    console.log('Post question error ->', err);
+                });
+        } else {
+            console.log('user not logged in!');
         }
-
-        fetch(`http://127.0.0.1:4200/trivia/${ this.state.question.trivia_id }/question`)
-            .then(response => {
-                console.log(response);
-            }).catch(err => {
-                console.log('Post question error ->', err);
-            })
     }
 
     submitAndAddNewQ = (event) => {
-        this.setState({
-            question: '',
-            category: '',
-            isTimed: false,
-            time: 0,
-            answers: [  ]
-        });
+        this.postNewQuestion();
+        // this.setState({
+        //     question: '',
+        //     category: '',
+        //     is_timed: false,
+        //     time: 0,
+        //     answers: [  ]
+        // });
         this.props.history.push('/new-trivia/questions')
         event.preventDefault();
     }
     
     submitAndFinish = (event) => {
-        this.props.history.push('/my-trivia')
+        this.props.history.push('/my-trivia');
         event.preventDefault();
     }
 
@@ -124,13 +140,13 @@ export default class NewQuestion extends Component {
                             <label className='is-timed-checkbox'>
                                 <input
                                     type='checkbox'
-                                    name='isTimed'
-                                    value={ this.state.question.isTimed }
+                                    name='is_timed'
+                                    value={ this.state.question.is_timed }
                                     onChange={ this.handleCheck }
                                 />
                                 Timed Question
                             </label>
-                            {  this.state.question.isTimed  ? (
+                            {  this.state.question.is_timed  ? (
                                 <div className='seconds-label'>
                                     <input 
                                         type='text'
