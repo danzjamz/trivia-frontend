@@ -8,11 +8,13 @@ export default class NewQuestion extends Component {
         super(props);
 
         this.state = {
-            trivia_id: 3,
-            question: '',
-            category: '',
-            isTimed: false,
-            time: 0,
+            question: {
+                trivia_id: 3,
+                question: '',
+                category: '',
+                isTimed: false,
+                time: 0
+            },
             answers: [  ]
         }
     }
@@ -21,7 +23,7 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...this.state.answers, answer] })
     }
 
-    updateAnswer = (event, answerId) => {
+    updateAnswerText = (event, answerId) => {
         const newAnswer = event.target.value;
 
         const newAnswers = this.state.answers.map(answer => {
@@ -34,7 +36,7 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...newAnswers] });
     }
 
-    updateCheck = (event, answerId) => {
+    updateAnswerCheck = (event, answerId) => {
         const newCheck = event.target.checked;
 
         const newAnswers = this.state.answers.map(answer => {
@@ -52,6 +54,21 @@ export default class NewQuestion extends Component {
             return answer.id !== answerId;
         });
         this.setState({ answers: [...newAnswers] });
+    }
+
+    postNewQuestion = () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: this.state
+        }
+
+        fetch(`http://127.0.0.1:4200/trivia/${ this.state.question.trivia_id }/question`)
+            .then(response => {
+                console.log(response);
+            }).catch(err => {
+                console.log('Post question error ->', err);
+            })
     }
 
     submitAndAddNewQ = (event) => {
@@ -72,11 +89,11 @@ export default class NewQuestion extends Component {
     }
 
     handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({ question: { ...this.state.question, [event.target.name]: event.target.value } });
     }
 
     handleCheck = (event) => {
-        this.setState({ [event.target.name]: event.target.checked });
+        this.setState({ question: { ...this.state.question, [event.target.name]: event.target.checked } });
     }
 
     render() {
@@ -89,7 +106,7 @@ export default class NewQuestion extends Component {
                         <div>
                             <textarea 
                                 name='question' 
-                                value={ this.state.question } 
+                                value={ this.state.question.question } 
                                 placeholder='question'
                                 rows='5'
                                 onChange={ this.handleChange }
@@ -98,7 +115,7 @@ export default class NewQuestion extends Component {
                         <div>
                             <input 
                                 name='category' 
-                                value={ this.state.category } 
+                                value={ this.state.question.category } 
                                 placeholder='category'
                                 onChange={ this.handleChange }>
                             </input>
@@ -108,12 +125,12 @@ export default class NewQuestion extends Component {
                                 <input
                                     type='checkbox'
                                     name='isTimed'
-                                    value={ this.state.isTimed }
+                                    value={ this.state.question.isTimed }
                                     onChange={ this.handleCheck }
                                 />
                                 Timed Question
                             </label>
-                            {  this.state.isTimed  ? (
+                            {  this.state.question.isTimed  ? (
                                 <div className='seconds-label'>
                                     <input 
                                         type='text'
@@ -133,8 +150,8 @@ export default class NewQuestion extends Component {
                         <h3>Answers</h3>
                         <Answers
                             answers={ this.state.answers } 
-                            updateAnswer={ this.updateAnswer } 
-                            updateCheck={ this.updateCheck } 
+                            updateAnswer={ this.updateAnswerText } 
+                            updateCheck={ this.updateAnswerCheck } 
                             deleteAnswer={ this.deleteAnswer } 
                         />
 

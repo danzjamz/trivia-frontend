@@ -12,13 +12,14 @@ export default class NewAnswer extends Component {
     }
 
     handleCheck = (event) => {
-        console.log(event.target.checked)
         this.setState({ isCorrectAnswer: event.target.checked })
     }
 
     handleSubmit = (event) => {
         this.setState({ id: this.state.id + 1 })
+
         this.props.addAnswer(this.state)
+
         this.setState({
             answer: '',
             isCorrectAnswer: false,

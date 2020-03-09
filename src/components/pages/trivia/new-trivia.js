@@ -91,7 +91,6 @@ export default class NewTrivia extends Component {
                             </label>
                         </div>
                         <div>
-                            {/* <Link to='/new-trivia/questions' type='submit'>Continue</Link> */}
                             <button type='submit' className="continue-btn form-el">Continue</button>
                         </div>
                     </form>
