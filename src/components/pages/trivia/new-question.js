@@ -51,7 +51,7 @@ export default class NewQuestion extends Component {
 
         const newAnswers = this.state.answers.map(answer => {
             if (answer.id === answerId) {
-                answer.isCorrectAnswer = newCheck;
+                answer.is_correct_answer = newCheck;
             }
             return answer;
         });

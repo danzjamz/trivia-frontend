@@ -66,9 +66,8 @@ export default class Navigation extends Component {
                     { this.state.user ? 
                         <NavLink 
                             to='/' 
-                            onClick={() => this.logout() } 
-                            className="nav-link" 
-                            activeClassName='active-nav-link'>
+                            onClick={ () => this.logout() } 
+                            className="nav-link">
                                 Logout
                         </NavLink> : 
                         <NavLink 

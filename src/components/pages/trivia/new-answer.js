@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class NewAnswer extends Component {
     state = {
         answer: '',
-        isCorrectAnswer: false,
+        is_correct_answer: false,
         id: 0
     }
 
@@ -12,7 +12,7 @@ export default class NewAnswer extends Component {
     }
 
     handleCheck = (event) => {
-        this.setState({ isCorrectAnswer: event.target.checked })
+        this.setState({ is_correct_answer: event.target.checked })
     }
 
     handleSubmit = (event) => {
@@ -22,7 +22,7 @@ export default class NewAnswer extends Component {
 
         this.setState({
             answer: '',
-            isCorrectAnswer: false,
+            is_correct_answer: false,
         });
         event.preventDefault();
     }
@@ -41,8 +41,8 @@ export default class NewAnswer extends Component {
                     <label>
                         <input
                             type='checkbox'
-                            name='isCorrectAnswer'
-                            checked={ this.state.isCorrectAnswer }
+                            name='is_correct_answer'
+                            checked={ this.state.is_correct_answer }
                             onChange={ this.handleCheck }
                         />
                         Correct Answer
