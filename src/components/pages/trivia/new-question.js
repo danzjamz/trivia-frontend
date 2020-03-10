@@ -77,12 +77,32 @@ export default class NewQuestion extends Component {
     
             fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question`, requestOptions)
                 .then(response => {
-                    console.log(response);
+                    return response.json();
+                }).then(questionData => {
+                    console.log(questionData);
+                    this.postNewAnswer(token, questionData.id);
                 }).catch(err => {
                     console.log('Post question error ->', err);
                 });
         } else {
             console.log('user not logged in!');
+        }
+    }
+
+    postNewAnswer = (token, questionId) => {
+        for (let answer in this.state.answers) {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify(this.state.answers[answer])
+            };
+    
+            fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question/${ questionId }/answer`, requestOptions)
+                .then(response => {
+                    console.log(response);
+                }).catch(err => {
+                    console.log('Post question error ->', err);
+                });
         }
     }
 
