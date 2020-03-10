@@ -100,6 +100,15 @@ export default class NewQuestion extends Component {
             fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question/${ questionId }/answer`, requestOptions)
                 .then(response => {
                     console.log(response);
+                    this.setState({
+                        question: {
+                            question: '',
+                            category: '',
+                            is_timed: false,
+                            time: 0
+                        },
+                        answers: [  ]
+                    });
                 }).catch(err => {
                     console.log('Post question error ->', err);
                 });
@@ -108,14 +117,8 @@ export default class NewQuestion extends Component {
 
     submitAndAddNewQ = (event) => {
         this.postNewQuestion();
-        // this.setState({
-        //     question: '',
-        //     category: '',
-        //     is_timed: false,
-        //     time: 0,
-        //     answers: [  ]
-        // });
-        this.props.history.push('/new-trivia/questions')
+        
+        this.props.history.push('/new-trivia/questions');
         event.preventDefault();
     }
     
