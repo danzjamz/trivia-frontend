@@ -6,7 +6,7 @@ import Answers from './answers';
 export default class NewQuestion extends Component {
     constructor(props) {
         super(props);
-
+        
         this.state = {
             trivia_id: this.props.location.state.trivia_id,
             question: {
@@ -33,11 +33,11 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...this.state.answers, answer] })
     }
 
-    updateAnswerText = (event, answerId) => {
+    updateAnswerText = (event, answerIndex) => {
         const newAnswer = event.target.value;
 
-        const newAnswers = this.state.answers.map(answer => {
-            if (answer.id === answerId) {
+        const newAnswers = this.state.answers.map((answer, index) => {
+            if (index === answerIndex) {
                 answer.answer = newAnswer;
             }
             return answer;
@@ -46,11 +46,11 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...newAnswers] });
     }
 
-    updateAnswerCheck = (event, answerId) => {
+    updateAnswerCheck = (event, answerIndex) => {
         const newCheck = event.target.checked;
 
-        const newAnswers = this.state.answers.map(answer => {
-            if (answer.id === answerId) {
+        const newAnswers = this.state.answers.map((answer, index) => {
+            if (index === answerIndex) {
                 answer.is_correct_answer = newCheck;
             }
             return answer;
@@ -79,8 +79,11 @@ export default class NewQuestion extends Component {
                 .then(response => {
                     return response.json();
                 }).then(questionData => {
-                    console.log(questionData);
-                    this.postNewAnswer(token, questionData.id);
+                    if (questionData) {
+                        this.postNewAnswer(token, questionData.id);
+                    } else {
+                        console.log('Something went wrong posting the question!');
+                    }
                 }).catch(err => {
                     console.log('Post question error ->', err);
                 });
@@ -98,17 +101,18 @@ export default class NewQuestion extends Component {
             };
     
             fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question/${ questionId }/answer`, requestOptions)
-                .then(response => {
-                    console.log(response);
-                    this.setState({
-                        question: {
-                            question: '',
-                            category: '',
-                            is_timed: false,
-                            time: 0
-                        },
-                        answers: [  ]
-                    });
+                .then(res => {
+                    if (res.status < 400) {
+                        this.setState({
+                            question: {
+                                question: '',
+                                category: '',
+                                is_timed: false,
+                                time: 0
+                            },
+                            answers: [  ]
+                        });
+                    }
                 }).catch(err => {
                     console.log('Post question error ->', err);
                 });

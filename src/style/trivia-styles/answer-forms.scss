@@ -1,25 +1,85 @@
-.new-answer-form form {
+.new-answer-form {
 
-    input {
-        @include input();
-        font-size: 1.25em !important;
-    }
-    
-    .form-items {
+    .new-answer-wrapper {
         display: flex;
         justify-content: space-between;
-        padding: 1em;
-        width: 60%;
+        align-items: flex-start;
+
+    
+        input {
+            @include input();
+            font-size: 1.25em !important;
+        }
+        
+        .form-items {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0;
+            width: 60%;
+    
+            label {
+                padding-top: .5em;
+            }
+        }
+
+        .add-btn {
+            padding-top: .1em;
+            border: none;
+            background-color: transparent;
+            color: $green;
+            font-size: 1.5em;
+
+            &:hover {
+                color: $darkgreen;
+                cursor: pointer;
+            }
+
+            &:focus {
+                outline: none;
+            }
+            &:active {
+                color: $darkergreen;
+            }
+        }
     }
+}
+
+
+.answers-container, .answer-wrapper {
+    padding-top: 0 !important;
+}
+
+.answer-text {
+    padding-bottom: .25em !important;
 }
 
 .answer-items {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 0 1em !important;
     width: inherit;
+
 }
 
-.answers-container, .answer-wrapper {
-    padding-top: 0 !important;
+.del-btn {
+    padding-top: .1em;
+    border: none;
+    background-color: transparent;
+    color: $lighttred;
+    font-size: 1.5em;
+
+    &:hover {
+        color: $red;
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:active {
+        color: $darkred;
+    }
 }

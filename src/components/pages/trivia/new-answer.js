@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faPlusSquare } from '@fortawesome/free-regular-svg-icons'
+
 export default class NewAnswer extends Component {
     state = {
         answer: '',
-        is_correct_answer: false,
-        id: 0
+        is_correct_answer: false
     }
 
     handleChange = (event) => {
@@ -16,28 +18,27 @@ export default class NewAnswer extends Component {
     }
 
     handleSubmit = (event) => {
-        this.setState({ id: this.state.id + 1 })
-
-        this.props.addAnswer(this.state)
+        this.props.addAnswer(this.state);
 
         this.setState({
             answer: '',
             is_correct_answer: false,
         });
+
         event.preventDefault();
     }
 
     render() {
         return (
-            <form onSubmit={ this.handleSubmit }>
-                <input
-                    type='text'
-                    name='answer'
-                    placeholder='add answer'
-                    value={ this.state.answer }
-                    onChange={ this.handleChange } 
-                />
+            <div className='new-answer-wrapper'>
                 <div className='form-items'>
+                    <input
+                        type='text'
+                        name='answer'
+                        placeholder='add answer'
+                        value={ this.state.answer }
+                        onChange={ this.handleChange } 
+                    />
                     <label>
                         <input
                             type='checkbox'
@@ -47,9 +48,11 @@ export default class NewAnswer extends Component {
                         />
                         Correct Answer
                     </label>
-                    <button type='submit'>+</button>
                 </div>
-            </form>
+                <button className='add-btn' type='button' onClick={ this.handleSubmit }>
+                    <FontAwesomeIcon icon='plus' />
+                </button>
+            </div>
         )
     }
 }

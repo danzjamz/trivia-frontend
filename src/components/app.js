@@ -4,6 +4,12 @@ import regeneratorRuntime from "regenerator-runtime";
 import "regenerator-runtime/runtime";
 require("regenerator-runtime/path").path
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faPlus, faMinus)
+
+
 import Navigation from './navigation/navigation';
 import Login from './pages/user/login';
 import ViewTrivia from './pages/trivia/view-trivia';

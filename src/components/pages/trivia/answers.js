@@ -1,30 +1,33 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function Answers({ answers, updateAnswer, updateCheck, deleteAnswer }) {
 
     const answerList = answers.length ? (
-        answers.map(answer => {
+        answers.map((answer, index) => {
             return (
-                <div className='answer-wrapper' key={answer.id}>
-                    <div>
+                <div className='answer-wrapper' key={index}>
+                    <div className='answer-text'>
                         <input
                             name='answer'
                             type='text'
                             value={ answer.answer }
-                            onChange={ (event) => updateAnswer(event, answer.id) }
+                            onChange={ (event) => updateAnswer(event, index) }
                         />
                     </div>
                     <div className='answer-items'>
                         <label>
                             <input
-                                name='isCorrectAnswer'
+                                name='is_correct_answer'
                                 type='checkbox'
-                                checked={ answer.isCorrectAnswer }
-                                onChange={ (event) => updateCheck(event, answer.id) }
+                                checked={ answer.is_correct_answer }
+                                onChange={ (event) => updateCheck(event, index) }
                             />
-                            { answer.isCorrectAnswer ? 'Correct Answer' : 'Incorrect Answer' }
+                            { answer.is_correct_answer ? 'Correct Answer' : 'Incorrect Answer' }
                         </label>
-                        <button type='button' onClick={ () => deleteAnswer(answer.id) }>Delete</button>
+                        <button type='button' className='del-btn' onClick={ () => deleteAnswer(index) }>
+                            <FontAwesomeIcon icon='minus' />
+                        </button>
                     </div>
                 </div>
             )
