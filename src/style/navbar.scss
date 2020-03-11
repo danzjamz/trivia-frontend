@@ -3,30 +3,58 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     background-color: $purple;
-    padding: 2rem;
     max-height: 89px;
+    height: 89px;
 
     .nav-link {
-        padding: 2rem;
+        padding: .25rem;
+        margin: 2rem;
         text-decoration: none;
         font-family: 'Viga', sans-serif;
         font-size: 1.2em;
         color: white;
+    }
 
-        &:hover {
-            background-color: $darkpurple;
+    .nav-left {
+        .nav-link:hover {
+            border-left: 1px dotted white;
+            transition: .5s ease-in-out;
+        }
+        
+        .active-nav-link {
+            border-left: 3px dotted white;
+            transition: .5s ease-in-out;
+            font-size: 1.4em;
+        }
+    }
+    
+    .nav-right {
+        .nav-link:hover {
+            border-right: 1px dotted white;
+            transition: .5s ease-in-out;
+        }
+        
+        .active-nav-link {
+            border-right: 3px dotted white;
+            transition: .5s ease-in-out;
+            font-size: 1.4em;
         }
     }
 
     .nav-burger{
         display: none;
+        max-width: 50px;
         .burger {
             padding: 1rem;
             color: white;
-    
+            
             &:hover {
-                background-color: $darkpurple;
+                margin-left: 1.15em;
+                padding: .85rem;
+                font-size: 1.25em;
+                border: 1px dotted white;
             }
         }
     }
@@ -35,14 +63,15 @@
 
 @media (max-width: 48em) {
     .nav {
-        padding: 1.22rem;
-
         .nav-burger {
             display: inline-block;
             
             .burger {
-                border: 1px solid white;
+                margin-left: 1.5em;
+                padding: .85em;
                 border-radius: 8px;
+                font-size: 1em;
+                transition: 1s ease-in-out;
             }
         }
         
@@ -50,37 +79,49 @@
             display: none;
         }
     }
-
+    
     .nav-active {
-        padding: 0;
         display: flex;
         flex-direction: column;
-
+        align-items: flex-start;
         position: fixed;
         width: 100%;
-        margin-top: -21px; // 1.31rem
+        // margin-top: -21px; // 1.31rem
         
         .nav-left {
             display: flex;
             flex-direction: column;
         }
-
+        
         .nav-link {
-            display: inline-block;
+            display: block;
+            margin: 0;
             padding: 1rem; 
             background-color: $purple;
-            width: 100%;
+            width: 100vw;
             border-top: .5px solid $darkpurple; 
         }
-
+        
+        .active-nav-link {
+            border-right: none !important;
+            border-left: 3px dotted white;
+            // transition: none;
+            font-size: 1.2rem;
+        }
+        
         .nav-burger {
             margin-bottom: 1rem;
             padding-top: 1.22rem;
-            padding-left: 1.22rem;
             
             .burger {
-                background-color: $darkpurple;
+                margin-left: 1.15em;
+                padding: .85rem;
+                border: 1px solid white;
+                font-size: 1.25em;
+                transition: 1s ease-in-out;
             }
+
+            
         }
     }
 }

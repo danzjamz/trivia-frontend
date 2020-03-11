@@ -1,0 +1,49 @@
+.new-trivia-container {
+    @include flexbox-col();
+
+    .new-trivia-title, label {
+        padding-bottom: .5em;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    .new-trivia-wrapper {
+        @include form-wrapper();
+        
+        form {
+            @include flexbox-col();
+            width: 100%;
+        }
+
+        div {
+            align-self: center;
+            width: 90%;
+        }
+
+        input {
+            @include input();
+        }
+        
+        textarea {
+            @include input();
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: $darkergreen;
+        }
+    }
+
+    .new-trivia-wrapper, .new-trivia-wrapper div {
+        display: flex;
+        flex-direction: column;
+        margin: 1em;
+
+        .form-el {
+            margin: .5em;
+        }
+    }
+
+    .continue-btn {
+        @include button();
+    }
+}

@@ -31,7 +31,7 @@ export default class Login extends Component {
                     this.setState({ error: '' });
                     // this.props.onLogin(user);
 
-                    console.log('yoyoyo', user)
+                    console.log('yoyoyo', user);
                 }
                 return user;
             }).catch(err => {
@@ -68,6 +68,7 @@ export default class Login extends Component {
 
     submitHandler = (event) => {
         this.login(this.state.username, this.state.password);
+        this.props.history.push('/');
         event.preventDefault();
     }
 
@@ -78,8 +79,20 @@ export default class Login extends Component {
                     <h1>Login</h1>
                     <form onSubmit={ this.submitHandler } className='form'>
                         <p className="error">{ this.state.error }</p>
-                        <input type="text" name="username" placeholder="username" value={ this.state.username } onChange={ this.changeHandler } />
-                        <input type="password" name="password" placeholder="password" value={ this.state.password } onChange={ this.changeHandler } />
+                        <input 
+                            type="text" 
+                            name="username" 
+                            placeholder="username" 
+                            value={ this.state.username } 
+                            onChange={ this.changeHandler } 
+                        />
+                        <input 
+                            type="password" 
+                            name="password" 
+                            placeholder="password" 
+                            value={ this.state.password } 
+                            onChange={ this.changeHandler } 
+                        />
                         <button type="submit">Login</button>
                     </form>
                 </div>
