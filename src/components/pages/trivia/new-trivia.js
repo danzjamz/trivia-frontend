@@ -8,6 +8,10 @@ export default class NewTrivia extends Component {
         super(props);
 
         this.state = {
+            pageTitle: ( this.props.match.params.id ?
+                            'Edit Trivia' : 'New Trivia' ),
+            editMode: ( this.props.match.params.id ?
+                            true : false ),
             trivia: {
                 user_id: 1,
                 title: '',
@@ -19,6 +23,12 @@ export default class NewTrivia extends Component {
             user: this.getUser()
         }
     }
+
+    // componentDidMount() {
+    //     if (this.props.match.params.id) {
+    //         this.setState({ pageTitle: 'Edit Trivia' });
+    //     }
+    // }
 
     handleChange = (event) => {
         this.setState({ 
@@ -93,10 +103,9 @@ export default class NewTrivia extends Component {
     render() {
         return (
             <div className='new-trivia-container'>
-                <h1 className='new-trivia-title'>New Trivia</h1>
+                <h1 className='new-trivia-title'>{ this.state.pageTitle }</h1>
                 <div className='new-trivia-wrapper'>
                     <form onSubmit={ this.submitForm }>
-                    {/* <form> */}
                         <div>
                             <label>Title</label>
                             <input className='form-el' type="text" name="title" placeholder="title" onChange={ () => this.handleChange(event) }></input>

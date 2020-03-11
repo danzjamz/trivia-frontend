@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 export function TriviaDetail(props) {
@@ -8,8 +9,10 @@ export function TriviaDetail(props) {
         return trivia.questions.map(question => {
             return (
                 <li key={ question.id }>
-                    <h4>{ question.question }</h4>
-                    <h5>Answers</h5>
+                    <h4 className='question-header'>{ question.question }</h4>
+                    <p className='category-header'>Category: { question.category }</p>
+                    <p className='timed-header'>Timed Question: { question.is_timed ? 'Yes' : 'No' }</p>
+                    <h4>Answers</h4>
                     <ul className="answers">
                         { renderAnswers(question) }
                     </ul>
@@ -33,11 +36,16 @@ export function TriviaDetail(props) {
     return (
         <div className='trivia-detail'>
             <div className='heading'>
-                <h1>{ trivia.title }</h1>
+                <div className='title-with-buttons'>
+                    <h1>{ trivia.title }</h1>
+                    <Link to={`/trivia/${ trivia.id }/edit`}>
+                        Edit
+                    </Link>
+                </div>
                 <h3>{ trivia.description }</h3>
             </div>
             <div className='questions-container'>
-                <h4>Questions</h4>
+                <h3>Questions</h3>
                 <ul className='questions'>
                     { renderQuestions() }
                 </ul>
