@@ -123,8 +123,6 @@ export default class NewQuestion extends Component {
                 body: JSON.stringify(this.state.question)
             };
 
-            console.log(requestOptions)
-
             if (this.state.editMode) {
                 url += `/${ this.state.questionId }`
             }
@@ -149,7 +147,7 @@ export default class NewQuestion extends Component {
 
     postNewAnswer = (token, questionId) => {
         const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${ questionId }/answer`
-        let url = '';
+        let url = baseUrl;
         
         for (let answer in this.state.answers) {
             const requestOptions = {
@@ -160,9 +158,7 @@ export default class NewQuestion extends Component {
             
             if (this.state.editMode) {
                 url = baseUrl + `/${ this.state.answers[answer].id }`;
-            } else {
-                url = baseUrl;
-            }
+            } 
     
             fetch(url, requestOptions)
                 .then(res => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 
 
 export class TriviaDetail extends Component {
@@ -25,6 +26,12 @@ export class TriviaDetail extends Component {
         if (localStorage.user == undefined) {
             return null;
         } else {
+            const token = jwt.decode(JSON.parse(localStorage.user).access_token);
+    
+            if (token.exp * 1000 < Date.now()) {
+                localStorage.clear();
+                return false;
+            }
             return localStorage.user;
         }
     }
@@ -66,11 +73,15 @@ export class TriviaDetail extends Component {
             return (
                 <li key={ question.id }>
                     <h4 className='question-header'>{ question.question }</h4>
+
                     <Link to={ `/trivia/${ this.state.trivia.trivia_id }/questions/${ question.id }/edit` }>
                         Edit
                     </Link>
+                    <button type='button' onClick={ () => this.delete('question', question.id) }>Delete</button>
+
                     <p className='category-header'>Category: { question.category }</p>
                     <p className='timed-header'>Timed Question: { question.is_timed ? 'Yes' : 'No' }</p>
+
                     <h4>Answers</h4>
                     <ul className="answers">
                         { this.renderAnswers(question) }
@@ -90,6 +101,27 @@ export class TriviaDetail extends Component {
             );
         });
     }
+
+    delete = (target, questionId = null) => {
+        const token = JSON.parse(this.state.user).access_token;
+        const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.trivia.trivia_id }`;
+        let url = baseUrl;
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+        };
+
+        if (questionId) {
+            url = baseUrl + `/question/${ questionId }`;
+        }
+
+        fetch(url, requestOptions)
+            .then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
+    }
    
     render() {
         return (
@@ -97,20 +129,25 @@ export class TriviaDetail extends Component {
                 <div className='heading'>
                     <div className='title-with-buttons'>
                         <h1>{ this.state.trivia.title }</h1>
+
                         <Link to={`/trivia/${ this.state.trivia.id }/edit`}>
                             Edit
                         </Link>
+                        <button type='button' onClick={ () => this.delete('trivia') }>Delete</button>
                     </div>
+
                     <h3>{ this.state.trivia.description }</h3>
                 </div>
                 <div className='questions-container'>
                     <h3>Questions</h3>
+
                     <ul className='questions'>
                         { this.renderQuestions() }
                     </ul>
                 </div>
                 <div className='settings'>
                     <h4>Settings</h4>
+
                     <p>Open to the public: { this.state.trivia.isOpen ? 'Yes' : 'No' }</p>
                     <p>Wait for all answers before next question: { this.state.trivia.shouldWait ? 'Yes' : 'No' }</p>
                 </div>

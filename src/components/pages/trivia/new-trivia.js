@@ -23,10 +23,6 @@ export default class NewTrivia extends Component {
     }
 
     componentWillMount() {
-        // if (this.props.match.params.id) {
-        //     this.setState({ pageTitle: 'Edit Trivia' });
-        // }
-
         if (this.state.editMode && this.state.user) {
             const token = JSON.parse(this.state.user).access_token;
             const trivia_id = this.props.match.params.id;
@@ -53,8 +49,6 @@ export default class NewTrivia extends Component {
                 }).catch(err => {
                     console.log('get trivia by id ->', err)
                 })
-
-            // this.setState({ trivia: { user } })
         }
     }
 
