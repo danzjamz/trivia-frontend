@@ -45,7 +45,8 @@ export default class NewQuestion extends Component {
                     });
                 }).catch(err => {
                     console.log('get trivia by id ->', err)
-                });
+                }
+            );
         }
     }
 
@@ -56,6 +57,22 @@ export default class NewQuestion extends Component {
         } else {
             return localStorage.user;
         }
+    }
+
+    checkUser = () => {
+        if (this.state.user) {
+            const token = jwt.decode(JSON.parse(this.state.user).access_token);
+            
+            // console.log(jwt.verify(token, 'supersecret'))
+    
+            if (token.exp * 1000 < Date.now()) {
+                localStorage.clear();
+                return false;
+            }
+            
+            return true;
+        }
+        return false;
     }
 
     addAnswer = (answer) => {
@@ -96,23 +113,29 @@ export default class NewQuestion extends Component {
     }
 
     postNewQuestion = () => {
-        if (this.state.user) {
+        if (this.checkUser) {
             const token = JSON.parse(this.state.user).access_token;
+            let url = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question`;
             const requestOptions = {
-                method: 'POST',
+                method: ( this.state.editMode ? 'PUT' : 'POST' ),
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
                 body: JSON.stringify(this.state.question)
             };
+
+            if (this.state.editMode) {
+                url += `/${ this.state.questionId }`
+            }
     
-            fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question`, requestOptions)
+            fetch(url, requestOptions)
                 .then(response => {
+                    console.log(response)
                     return response.json();
                 }).then(questionData => {
-                    if (questionData) {
-                        this.postNewAnswer(token, questionData.id);
-                    } else {
-                        console.log('Something went wrong posting the question!');
-                    }
+                    // if (questionData) {
+                    //     this.postNewAnswer(token, questionData.id);
+                    // } else {
+                    //     console.log('Something went wrong posting the question!');
+                    // }
                 }).catch(err => {
                     console.log('Post question error ->', err);
                 });
@@ -151,7 +174,9 @@ export default class NewQuestion extends Component {
     submitAndAddNewQ = (event) => {
         this.postNewQuestion();
         
-        this.props.history.push('/new-trivia/questions');
+        if (!this.state.editMode) {
+            this.props.history.push('/new-trivia/questions');
+        }
         event.preventDefault();
     }
     
@@ -230,10 +255,16 @@ export default class NewQuestion extends Component {
                             deleteAnswer={ this.deleteAnswer } 
                         />
 
-                        <div className='submit-btns'>
-                            <button type='submit' onClick={ this.submitAndAddNewQ }>Submit and Add Another Question</button>
-                            <button type='submit' onClick={ this.submitAndFinish }>Submit and Finish</button> 
-                        </div>
+                            { this.state.editMode ? (
+                                <div className='submit-btns'>
+                                    <button type='submit' onClick={ this.submitAndAddNewQ }>Save</button>
+                                </div>
+                            ) : (
+                                <div className='submit-btns'>
+                                    <button type='submit' onClick={ this.submitAndAddNewQ }>Submit and Add Another Question</button>
+                                    <button type='submit' onClick={ this.submitAndFinish }>Submit and Finish</button> 
+                                </div>
+                            )}
                     </form>
                 </div>
             </div>

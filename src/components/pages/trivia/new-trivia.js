@@ -98,12 +98,12 @@ export default class NewTrivia extends Component {
     postNewTrivia = () => {
         if (this.checkUser()) {
             const token = JSON.parse(this.state.user).access_token;
+            let url = 'http://127.0.0.1:4200/trivia';
             const requestOptions = {
                 method: ( this.state.editMode ? 'PUT' : 'POST' ),
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
                 body: JSON.stringify(this.state.trivia)
             };
-            let url = 'http://127.0.0.1:4200/trivia';
             const triviaId = this.props.match.params.id;
 
             if (this.state.editMode) {
