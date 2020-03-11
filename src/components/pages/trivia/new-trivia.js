@@ -69,9 +69,11 @@ export default class NewTrivia extends Component {
     
             fetch('http://127.0.0.1:4200/trivia', requestOptions)
                 .then(res => {
-                    console.log(res);
-                    if (res.status < 400) {
-                        this.props.history.push('/new-trivia/questions');
+                    console.log(res); 
+                    return res.json();
+                }).then(data => {
+                    if (data) {
+                        this.props.history.push('/new-trivia/questions', { trivia_id: data.id });
                     } else {
                         return 'BAD REQUEST';
                     }

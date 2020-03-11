@@ -8,7 +8,7 @@ export default class NewQuestion extends Component {
         super(props);
 
         this.state = {
-            trivia_id: 3,
+            trivia_id: this.props.location.state.trivia_id,
             question: {
                 question: '',
                 category: '',
