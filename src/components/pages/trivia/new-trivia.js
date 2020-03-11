@@ -24,11 +24,41 @@ export default class NewTrivia extends Component {
         }
     }
 
-    // componentDidMount() {
-    //     if (this.props.match.params.id) {
-    //         this.setState({ pageTitle: 'Edit Trivia' });
-    //     }
-    // }
+    componentWillMount() {
+        // if (this.props.match.params.id) {
+        //     this.setState({ pageTitle: 'Edit Trivia' });
+        // }
+
+        if (this.state.editMode && this.state.user) {
+            const token = JSON.parse(this.state.user).access_token;
+            const trivia_id = this.props.match.params.id;
+
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+            }
+
+            fetch(`http://127.0.0.1:4200/trivia/${ trivia_id }`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    this.setState({ 
+                        trivia: {
+                            user_id: data.user_id,
+                            title: data.title,
+                            description: data.description,
+                            questions: '',
+                            is_open: data.is_open,
+                            should_wait: data.should_wait
+                        }
+                    })
+                }).catch(err => {
+                    console.log('get trivia by id ->', err)
+                })
+
+            // this.setState({ trivia: { user } })
+        }
+    }
 
     handleChange = (event) => {
         this.setState({ 
@@ -71,19 +101,26 @@ export default class NewTrivia extends Component {
         if (this.checkUser()) {
             const token = JSON.parse(this.state.user).access_token;
             const requestOptions = {
-                method: 'POST',
+                method: ( this.state.editMode ? 'PUT' : 'POST' ),
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                mode: 'cors',
                 body: JSON.stringify(this.state.trivia)
             };
+            let url = 'http://127.0.0.1:4200/trivia';
+            const triviaId = this.props.match.params.id;
+
+            if (this.state.editMode) {
+                url = url + `/${ triviaId }`;
+            }
     
-            fetch('http://127.0.0.1:4200/trivia', requestOptions)
-                .then(res => {
-                    console.log(res); 
-                    return res.json();
-                }).then(data => {
+            fetch(url, requestOptions)
+                .then(res => res.json())
+                .then(data => {
                     if (data) {
-                        this.props.history.push('/new-trivia/questions', { trivia_id: data.id });
+                        if (this.state.editMode) {
+                            // this.props.history.push(`/trivia/${ triviaId }`);
+                        } else {
+                            this.props.history.push('/new-trivia/questions', { trivia_id: data.id });
+                        }
                     } else {
                         return 'BAD REQUEST';
                     }
@@ -108,18 +145,43 @@ export default class NewTrivia extends Component {
                     <form onSubmit={ this.submitForm }>
                         <div>
                             <label>Title</label>
-                            <input className='form-el' type="text" name="title" placeholder="title" onChange={ () => this.handleChange(event) }></input>
+                            <input 
+                                className='form-el'
+                                type="text"
+                                name="title"
+                                placeholder="title"
+                                value={ this.state.trivia.title }
+                                onChange={ () => this.handleChange(event) } 
+                            />
                             <label>Description</label>
-                            <textarea className='form-el' type="text" name="description" placeholder="description" rows='10' onChange={ () => this.handleChange(event) }></textarea>
+                            <textarea 
+                                className='form-el'
+                                type="text"
+                                name="description"
+                                placeholder="description"
+                                value={ this.state.trivia.description }
+                                rows='10' 
+                                onChange={ () => this.handleChange(event) } 
+                            />
                         </div>
                         <div>
                             <label>Trivia Settings</label>
                             <label className='form-el'>
-                                <input type="checkbox" name='is_open' onChange={ () => this.handleCheck(event) }></input>
+                                <input 
+                                    type="checkbox"
+                                    name='is_open'
+                                    checked={ this.state.trivia.is_open }
+                                    onChange={ () => this.handleCheck(event) }
+                                />
                                 Open to the public
                             </label>
                             <label className='form-el'>
-                                <input type="checkbox" name='should_wait' value='true' onChange={ () => this.handleCheck(event) }></input>
+                                <input 
+                                    type="checkbox" 
+                                    name='should_wait' 
+                                    checked={ this.state.trivia.should_wait }
+                                    onChange={ () => this.handleCheck(event) } 
+                                />
                                 Wait for players
                             </label>
                         </div>
