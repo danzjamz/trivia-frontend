@@ -31,7 +31,7 @@ export default class ViewTrivia extends Component {
         return this.state.trivias.map(trivia => {
             return (
                 <li className='trivia-item' key={ trivia.id }>
-                    <Link to={{ pathname: `/trivia/${trivia.id}`,  trivia: trivia }}>
+                    <Link to={ `/trivia/${trivia.id}` }>
                         <h1>{ trivia.title }</h1>
                         <h4>{ trivia.description }</h4>
                     </Link>
