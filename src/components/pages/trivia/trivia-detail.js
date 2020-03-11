@@ -37,6 +37,10 @@ export class TriviaDetail extends Component {
     }
 
     componentDidMount() {
+        this.getTrivia();
+    }
+
+    getTrivia = () => {
         if (this.state.user) {
             const token = JSON.parse(this.state.user).access_token;
             const trivia_id = this.props.match.params.id;
@@ -68,6 +72,34 @@ export class TriviaDetail extends Component {
         }
     }
 
+    
+    delete = (questionId = null) => {
+        const token = JSON.parse(this.state.user).access_token;
+        const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.trivia.trivia_id }`;
+        let url = baseUrl;
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+        };
+        
+        if (questionId) {
+            url = baseUrl + `/question/${ questionId }`;
+        }
+        
+        fetch(url, requestOptions)
+        .then(res => {
+            if (questionId) {
+                console.log('Question deleted ->', res);
+                this.getTrivia();
+            } else {
+                console.log('Trivia deleted ->', res);
+                this.props.history.push('/my-trivia');
+            }
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     renderQuestions = () => {
         return this.state.trivia.questions.map(question => {
             return (
@@ -77,7 +109,7 @@ export class TriviaDetail extends Component {
                     <Link to={ `/trivia/${ this.state.trivia.trivia_id }/questions/${ question.id }/edit` }>
                         Edit
                     </Link>
-                    <button type='button' onClick={ () => this.delete('question', question.id) }>Delete</button>
+                    <button type='button' onClick={ () => this.delete(question.id) }>Delete</button>
 
                     <p className='category-header'>Category: { question.category }</p>
                     <p className='timed-header'>Timed Question: { question.is_timed ? 'Yes' : 'No' }</p>
@@ -101,27 +133,6 @@ export class TriviaDetail extends Component {
             );
         });
     }
-
-    delete = (target, questionId = null) => {
-        const token = JSON.parse(this.state.user).access_token;
-        const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.trivia.trivia_id }`;
-        let url = baseUrl;
-        const requestOptions = {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
-        };
-
-        if (questionId) {
-            url = baseUrl + `/question/${ questionId }`;
-        }
-
-        fetch(url, requestOptions)
-            .then(res => {
-                console.log(res);
-            }).catch(err => {
-                console.log(err);
-            })
-    }
    
     render() {
         return (
@@ -133,7 +144,7 @@ export class TriviaDetail extends Component {
                         <Link to={`/trivia/${ this.state.trivia.id }/edit`}>
                             Edit
                         </Link>
-                        <button type='button' onClick={ () => this.delete('trivia') }>Delete</button>
+                        <button type='button' onClick={ () => this.delete() }>Delete</button>
                     </div>
 
                     <h3>{ this.state.trivia.description }</h3>
