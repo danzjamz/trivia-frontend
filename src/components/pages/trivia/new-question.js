@@ -8,7 +8,9 @@ export default class NewQuestion extends Component {
         super(props);
         
         this.state = {
-            trivia_id: this.props.location.state.trivia_id,
+            editMode: ( this.props.match.params ? true : false ),
+            triviaId: this.props.match.params.triviaId,
+            questionId: this.props.match.params.questionId,
             question: {
                 question: '',
                 category: '',
@@ -17,6 +19,33 @@ export default class NewQuestion extends Component {
             },
             answers: [  ],
             user: this.getUser()
+        }
+    }
+
+    componentWillMount() {
+        if (this.state.editMode && this.state.user) {
+            const token = JSON.parse(this.state.user).access_token;
+
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+            }
+
+            fetch(`http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${ this.state.questionId }`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({ 
+                        question: {
+                            question: data.question,
+                            category: data.category,
+                            is_timed: data.is_timed,
+                            time: 0
+                        },
+                        answers: [ ...data.answers ]
+                    });
+                }).catch(err => {
+                    console.log('get trivia by id ->', err)
+                });
         }
     }
 
@@ -142,7 +171,10 @@ export default class NewQuestion extends Component {
     render() {
         return (
             <div className='question-container'>
-                <h1 className='heading'>New Question</h1>
+                <h1 className='heading'>
+                    { this.state.editMode ? 
+                        'Edit Question' : 'New Question' }
+                </h1>
 
                 <div className='question-wrapper'>
                     <form>

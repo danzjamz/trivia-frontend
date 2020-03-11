@@ -66,6 +66,9 @@ export class TriviaDetail extends Component {
             return (
                 <li key={ question.id }>
                     <h4 className='question-header'>{ question.question }</h4>
+                    <Link to={ `/trivia/${ this.state.trivia.trivia_id }/questions/${ question.id }/edit` }>
+                        Edit
+                    </Link>
                     <p className='category-header'>Category: { question.category }</p>
                     <p className='timed-header'>Timed Question: { question.is_timed ? 'Yes' : 'No' }</p>
                     <h4>Answers</h4>

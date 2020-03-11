@@ -8,8 +8,6 @@ export default class NewTrivia extends Component {
         super(props);
 
         this.state = {
-            pageTitle: ( this.props.match.params.id ?
-                            'Edit Trivia' : 'New Trivia' ),
             editMode: ( this.props.match.params.id ?
                             true : false ),
             trivia: {
@@ -140,7 +138,10 @@ export default class NewTrivia extends Component {
     render() {
         return (
             <div className='new-trivia-container'>
-                <h1 className='new-trivia-title'>{ this.state.pageTitle }</h1>
+                <h1 className='new-trivia-title'>
+                    {  ( this.props.match.params.id ?
+                            'Edit Trivia' : 'New Trivia' ) }
+                </h1>
                 <div className='new-trivia-wrapper'>
                     <form onSubmit={ this.submitForm }>
                         <div>

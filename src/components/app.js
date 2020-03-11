@@ -27,11 +27,12 @@ export default class App extends Component {
 
           <Switch>
             <Route exact path='/' component={ Home } />
-            <Route exact path='/new-trivia/questions' component={ NewQuestion } />
-            <Route path='/new-trivia' component={ NewTrivia } />
             <Route path='/my-trivia' component={ ViewTrivia } />
+            <Route path='/new-trivia' component={ NewTrivia } />
             <Route exact path='/trivia/:id' component= { TriviaDetail } />
             <Route exact path='/trivia/:id/edit' component={ NewTrivia } />
+            <Route exact path='/trivia/:triviaId/questions' component={ NewQuestion } />
+            <Route exact path='/trivia/:triviaId/questions/:questionId/edit' component={ NewQuestion } />
 
             <Route path='/login' component={ Login } />
           </Switch>
