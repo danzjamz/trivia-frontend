@@ -24,6 +24,10 @@ export default class NewQuestion extends Component {
     }
 
     componentWillMount() {
+        this.getTrivia();
+    }
+
+    getTrivia = () => {
         if (this.state.editMode && this.state.user) {
             const token = JSON.parse(this.state.user).access_token;
 
@@ -106,11 +110,29 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...newAnswers] });
     }
 
-    deleteAnswer = (answerId) => {
-        const newAnswers = this.state.answers.filter(answer => {
-            return answer.id !== answerId;
-        });
-        this.setState({ answers: [...newAnswers] });
+    deleteAnswer = (answerIndex, id=null) => {
+        if (this.state.editMode) {
+            const token = JSON.parse(this.state.user).access_token;
+            const url = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${this.state.questionId }/answer/${ id }`;
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+            };
+        
+            fetch(url, requestOptions)
+                .then(res => {
+                    console.log('Answer deleted ->', res)
+                    this.getTrivia();
+                }).catch(err => {
+                    console.log(err);
+                }
+            );
+        } else {
+            const newAnswers = this.state.answers.filter(answer => {
+                return answer.id !== answerIndex;
+            });
+            this.setState({ answers: [...newAnswers] });
+        }
     }
 
     postNewQuestion = () => {
