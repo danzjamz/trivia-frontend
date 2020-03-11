@@ -7,7 +7,7 @@ export function TriviaDetail(props) {
     const renderQuestions = () => {
         return trivia.questions.map(question => {
             return (
-                <li>
+                <li key={ question.id }>
                     <h4>{ question.question }</h4>
                     <h5>Answers</h5>
                     <ul className="answers">
@@ -21,7 +21,10 @@ export function TriviaDetail(props) {
     const renderAnswers = (question) => {
         return question.answers.map(answer => {
             return (
-                <li className={'answer ' + (answer.isCorrectAnswer ? 'correct' : 'incorrect')}>{ answer.answer }</li>
+                <li key={ answer.id }
+                    className={'answer ' + (answer.isCorrectAnswer ? 'correct' : 'incorrect')}>
+                        { answer.answer }
+                </li>
             );
         });
     }
