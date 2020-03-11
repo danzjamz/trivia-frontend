@@ -28,7 +28,7 @@ export default class App extends Component {
           <Switch>
             <Route exact path='/' component={ Home } />
             <Route path='/my-trivia' component={ ViewTrivia } />
-            <Route path='/new-trivia' component={ NewTrivia } />
+            <Route exact path='/new-trivia' component={ NewTrivia } />
             <Route exact path='/trivia/:id' component= { TriviaDetail } />
             <Route exact path='/trivia/:id/edit' component={ NewTrivia } />
             <Route exact path='/trivia/:triviaId/questions' component={ NewQuestion } />

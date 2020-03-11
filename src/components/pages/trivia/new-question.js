@@ -8,9 +8,10 @@ export default class NewQuestion extends Component {
         super(props);
         
         this.state = {
-            editMode: ( this.props.match.params ? true : false ),
+            editMode: ( this.props.match.params.questionId ? true : false ),
             triviaId: this.props.match.params.triviaId,
-            questionId: this.props.match.params.questionId,
+            questionId: ( this.props.match.params.questionId ? 
+                            this.props.match.params.questionId : null ),
             question: {
                 question: '',
                 category: '',
@@ -122,6 +123,8 @@ export default class NewQuestion extends Component {
                 body: JSON.stringify(this.state.question)
             };
 
+            console.log(requestOptions)
+
             if (this.state.editMode) {
                 url += `/${ this.state.questionId }`
             }
@@ -131,11 +134,11 @@ export default class NewQuestion extends Component {
                     console.log(response)
                     return response.json();
                 }).then(questionData => {
-                    // if (questionData) {
-                    //     this.postNewAnswer(token, questionData.id);
-                    // } else {
-                    //     console.log('Something went wrong posting the question!');
-                    // }
+                    if (questionData) {
+                        this.postNewAnswer(token, questionData.id);
+                    } else {
+                        console.log('Something went wrong posting the question!');
+                    }
                 }).catch(err => {
                     console.log('Post question error ->', err);
                 });
@@ -145,42 +148,46 @@ export default class NewQuestion extends Component {
     }
 
     postNewAnswer = (token, questionId) => {
+        const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${ questionId }/answer`
+        let url = '';
+        
         for (let answer in this.state.answers) {
             const requestOptions = {
-                method: 'POST',
+                method: ( this.state.editMode ? 'PUT' : 'POST' ),
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
                 body: JSON.stringify(this.state.answers[answer])
             };
+            
+            if (this.state.editMode) {
+                url = baseUrl + `/${ this.state.answers[answer].id }`;
+            } else {
+                url = baseUrl;
+            }
     
-            fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question/${ questionId }/answer`, requestOptions)
+            fetch(url, requestOptions)
                 .then(res => {
-                    if (res.status < 400) {
-                        this.setState({
-                            question: {
-                                question: '',
-                                category: '',
-                                is_timed: false,
-                                time: 0
-                            },
-                            answers: [  ]
-                        });
-                    }
+                    console.log(res);
                 }).catch(err => {
                     console.log('Post question error ->', err);
-                });
+                }
+            );
         }
     }
 
-    submitAndAddNewQ = (event) => {
+    submitQuestion = (event) => {
         this.postNewQuestion();
         
         if (!this.state.editMode) {
-            this.props.history.push('/new-trivia/questions');
+            this.props.history.push(`/trivia/${ data.id }/questions`);
+        } else {
+            this.props.history.push(`/trivia/${ this.state.triviaId }`)
         }
         event.preventDefault();
     }
     
     submitAndFinish = (event) => {
+        this.postNewQuestion();
+
         this.props.history.push('/my-trivia');
         event.preventDefault();
     }
@@ -225,7 +232,7 @@ export default class NewQuestion extends Component {
                                 <input
                                     type='checkbox'
                                     name='is_timed'
-                                    value={ this.state.question.is_timed }
+                                    checked={ this.state.question.is_timed }
                                     onChange={ this.handleCheck }
                                 />
                                 Timed Question
@@ -244,9 +251,11 @@ export default class NewQuestion extends Component {
                             ) }
                             {/* this input doesn't do anything yet */}
                         </div>
-                        <div className='new-answer-form'>
-                            <NewAnswer addAnswer={ this.addAnswer } />
-                        </div>
+                        { !this.state.editMode ? (
+                            <div className='new-answer-form'>
+                                <NewAnswer addAnswer={ this.addAnswer } />
+                            </div>
+                        ) : ( null )}
                         <h3>Answers</h3>
                         <Answers
                             answers={ this.state.answers } 
@@ -257,11 +266,11 @@ export default class NewQuestion extends Component {
 
                             { this.state.editMode ? (
                                 <div className='submit-btns'>
-                                    <button type='submit' onClick={ this.submitAndAddNewQ }>Save</button>
+                                    <button type='submit' onClick={ this.submitQuestion }>Save</button>
                                 </div>
                             ) : (
                                 <div className='submit-btns'>
-                                    <button type='submit' onClick={ this.submitAndAddNewQ }>Submit and Add Another Question</button>
+                                    <button type='submit' onClick={ this.submitQuestion }>Submit and Add Another Question</button>
                                     <button type='submit' onClick={ this.submitAndFinish }>Submit and Finish</button> 
                                 </div>
                             )}
