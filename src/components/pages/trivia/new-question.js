@@ -44,7 +44,7 @@ export default class NewQuestion extends Component {
                             question: data.question,
                             category: data.category,
                             is_timed: data.is_timed,
-                            time: 0
+                            time: data.time
                         },
                         answers: [ ...data.answers ]
                     });
@@ -281,7 +281,12 @@ export default class NewQuestion extends Component {
                                 <div className='seconds-label'>
                                     <input 
                                         type='text'
+                                        name='time'
                                         placeholder='s'
+                                        value={ this.state.question.time > 0 ? (
+                                                    this.state.question.time
+                                                ) : null}
+                                        onChange={ this.handleChange }
                                         className='seconds-input'
                                     />
                                     seconds
@@ -289,7 +294,6 @@ export default class NewQuestion extends Component {
                                 ) : (
                                     null
                             ) }
-                            {/* this input doesn't do anything yet */}
                         </div>
                         <div className='new-answer-form'>
                             <NewAnswer addAnswer={ this.addAnswer } />

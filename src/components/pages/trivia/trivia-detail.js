@@ -118,6 +118,9 @@ export class TriviaDetail extends Component {
 
                     <p className='category-header'>Category: { question.category }</p>
                     <p className='timed-header'>Timed Question: { question.is_timed ? 'Yes' : 'No' }</p>
+                    { question.is_timed ? (
+                        <p className='time'>{ question.time } seconds</p>
+                    ) : null }
 
                     <h4>Answers</h4>
                     <ul className="answers">
