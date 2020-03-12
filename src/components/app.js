@@ -17,6 +17,7 @@ import { TriviaDetail } from './pages/trivia/trivia-detail';
 import NewTrivia from './pages/trivia/new-trivia';
 import NewQuestion from './pages/trivia/new-question';
 import Home from './pages/home';
+import StartTrivia from './pages/game/start-trivia';
 
 export default class App extends Component {
   render() {
@@ -33,6 +34,8 @@ export default class App extends Component {
             <Route exact path='/trivia/:id/edit' component={ NewTrivia } />
             <Route exact path='/trivia/:triviaId/questions' component={ NewQuestion } />
             <Route exact path='/trivia/:triviaId/questions/:questionId/edit' component={ NewQuestion } />
+
+            <Route path='/trivia/:id/play' component={ StartTrivia } />
 
             <Route path='/login' component={ Login } />
             <Route path='/register' component={ Login } />

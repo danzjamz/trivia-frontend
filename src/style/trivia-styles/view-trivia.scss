@@ -1,11 +1,24 @@
 .view-trivias-container {
     .trivia-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         font-family: 'Montserrat', sans-serif;
         border-bottom: 1px solid $darkpurple;
 
         a {
             text-decoration: none;
             color: $darkergreen;
+        }
+
+        .play-trivia-btn {
+            @include button();
+            margin: 0;
+            margin-right: 1em;
+            width: 3em;
+            padding: .5em 0 .5em 1em;
+            font-size: 1.5em;
+            font-family: 'Viga', sans-serif;        
         }
         
         h1 {
