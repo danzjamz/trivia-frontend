@@ -226,9 +226,12 @@ export default class NewQuestion extends Component {
     }
     
     submitAndFinish = (event) => {
-        this.postNewQuestion();
+        this.postNewQuestion().then((res)=>{
+            this.props.history.push(`/trivia/${ this.state.triviaId }`);
+        }).catch((err)=>{
+            console.log(err)
+        });
 
-        this.props.history.push('/my-trivia');
         event.preventDefault();
     }
 
@@ -285,7 +288,7 @@ export default class NewQuestion extends Component {
                                         placeholder='s'
                                         value={ this.state.question.time > 0 ? (
                                                     this.state.question.time
-                                                ) : null}
+                                                ) : ''}
                                         onChange={ this.handleChange }
                                         className='seconds-input'
                                     />
@@ -306,9 +309,9 @@ export default class NewQuestion extends Component {
                             deleteAnswer={ this.deleteAnswer } 
                         />
 
-                            { this.state.editMode ? (
+                            { this.state.editMode || this.props.location.state.fromTriviaDetail ? (
                                 <div className='submit-btns'>
-                                    <button type='submit' onClick={ this.submitQuestion }>Save</button>
+                                    <button type='submit' onClick={ this.submitAndFinish }>Save</button>
                                 </div>
                             ) : (
                                 <div className='submit-btns'>

@@ -18,7 +18,7 @@
 
         .heading {
             font-family: 'Raleway', sans-serif;
-            width: 80%;
+            width: 100%;
     
             .title-with-buttons {
                 display: flex;
@@ -33,11 +33,23 @@
         }
     
         .questions-container {
+
+            .questions-header {
+                display: flex;
+                align-items: center;
+
+                button {
+                    @include add-btn();
+                    margin-left: 1em;
+                    font-size: 1.25em;
+                }
+            }
     
             .questions {
     
                 .q-header-items {
                     display: flex;
+                    justify-content: space-between; // take this out if you want edit/delete btns next to question.question
                     align-items: center;
                 }
     

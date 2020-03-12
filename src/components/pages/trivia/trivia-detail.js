@@ -73,8 +73,12 @@ export class TriviaDetail extends Component {
         }
     }
 
+    addNewQuestion = () => {
+        this.props.history.push(`/trivia/${ this.state.trivia.trivia_id }/questions`, { fromTriviaDetail: true });
+    }
+
     
-    delete = (questionId = null) => {
+    deleteItem = (questionId = null) => {
         const token = JSON.parse(this.state.user).access_token;
         const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.trivia.trivia_id }`;
         let url = baseUrl;
@@ -108,12 +112,14 @@ export class TriviaDetail extends Component {
                     <div className='q-header-items'>
                         <h4 className='question-header'>{ question.question }</h4>
 
-                        <Link className='edit-btn' to={ `/trivia/${ this.state.trivia.trivia_id }/questions/${ question.id }/edit` }>
-                            <FontAwesomeIcon icon='pencil-alt' />
-                        </Link>
-                        <button className='del-btn' type='button' onClick={ () => this.delete(question.id) }>
-                            <FontAwesomeIcon icon='trash-alt' />
-                        </button>
+                        <div>
+                            <Link className='edit-btn' to={ `/trivia/${ this.state.trivia.trivia_id }/questions/${ question.id }/edit` }>
+                                <FontAwesomeIcon icon='pencil-alt' />
+                            </Link>
+                            <button className='del-btn' type='button' onClick={ () => this.deleteItem(question.id) }>
+                                <FontAwesomeIcon icon='trash-alt' />
+                            </button>
+                        </div>
                     </div>
 
                     <p className='category-header'>Category: { question.category }</p>
@@ -154,7 +160,7 @@ export class TriviaDetail extends Component {
                                 <Link className='edit-btn' to={`/trivia/${ this.state.trivia.id }/edit`}>
                                     <FontAwesomeIcon icon='pencil-alt' />
                                 </Link>
-                                <button className='del-btn' type='button' onClick={ () => this.delete() }>
+                                <button className='del-btn' type='button' onClick={ () => this.deleteItem() }>
                                     <FontAwesomeIcon icon='trash-alt' />
                                 </button>
                             </div>
@@ -163,7 +169,12 @@ export class TriviaDetail extends Component {
                         <h3>{ this.state.trivia.description }</h3>
                     </div>
                     <div className='questions-container'>
-                        <h3>Questions</h3>
+                        <div className='questions-header'>
+                            <h3>Questions</h3>
+                            <button onClick={ this.addNewQuestion }>
+                                <FontAwesomeIcon icon='plus' />
+                            </button>
+                        </div>
 
                         <ul className='questions'>
                             { this.renderQuestions() }
