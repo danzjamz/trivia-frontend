@@ -81,7 +81,12 @@ export default class NewQuestion extends Component {
     }
 
     addAnswer = (answer) => {
-        this.setState({ answers: [...this.state.answers, answer] })
+        if (this.state.editMode) {
+            const token = JSON.parse(this.state.user).access_token;
+            this.postNewAnswer(token, this.state.questionId, [answer], true) // pass token :)
+        } else {
+            this.setState({ answers: [...this.state.answers, answer] });
+        }
     }
 
     updateAnswerText = (event, answerIndex) => {
@@ -155,7 +160,7 @@ export default class NewQuestion extends Component {
                     return response.json();
                 }).then(questionData => {
                     if (questionData) {
-                        this.postNewAnswer(token, questionData.id);
+                        this.postNewAnswer(token, questionData.id, this.state.answers);
                     } else {
                         console.log('Something went wrong posting the question!');
                     }
@@ -167,24 +172,27 @@ export default class NewQuestion extends Component {
         }
     }
 
-    postNewAnswer = (token, questionId) => {
+    postNewAnswer = (token, questionId, answers, addNewInEdit=false) => {
         const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${ questionId }/answer`
         let url = baseUrl;
         
-        for (let answer in this.state.answers) {
+        for (let answer in answers) {
             const requestOptions = {
-                method: ( this.state.editMode ? 'PUT' : 'POST' ),
+                method: ( this.state.editMode && !addNewInEdit ? 'PUT' : 'POST' ),
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                body: JSON.stringify(this.state.answers[answer])
+                body: JSON.stringify(answers[answer])
             };
             
-            if (this.state.editMode) {
-                url = baseUrl + `/${ this.state.answers[answer].id }`;
-            } 
+            if (this.state.editMode && !addNewInEdit) {
+                url = baseUrl + `/${ answers[answer].id }`;
+            }
     
             fetch(url, requestOptions)
                 .then(res => {
                     console.log(res);
+                    if (this.state.editMode && addNewInEdit) {
+                        this.getTrivia();
+                    }
                 }).catch(err => {
                     console.log('Post question error ->', err);
                 }
@@ -269,11 +277,9 @@ export default class NewQuestion extends Component {
                             ) }
                             {/* this input doesn't do anything yet */}
                         </div>
-                        { !this.state.editMode ? (
-                            <div className='new-answer-form'>
-                                <NewAnswer addAnswer={ this.addAnswer } />
-                            </div>
-                        ) : ( null )}
+                        <div className='new-answer-form'>
+                            <NewAnswer addAnswer={ this.addAnswer } />
+                        </div>
                         <h3>Answers</h3>
                         <Answers
                             answers={ this.state.answers } 

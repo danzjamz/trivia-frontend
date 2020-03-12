@@ -2,12 +2,12 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function Answers({ answers, updateAnswer, updateCheck, deleteAnswer }) {
-    let answerId = null;
     
     const answerList = answers.length ? (
         answers.map((answer, index) => {
+            let id = null;
             if (answer.id) {
-                answerId = answer.id;
+                id = answer.id;
             }
 
             return (
@@ -30,7 +30,7 @@ export default function Answers({ answers, updateAnswer, updateCheck, deleteAnsw
                             />
                             { answer.is_correct_answer ? 'Correct Answer' : 'Incorrect Answer' }
                         </label>
-                        <button type='button' className='del-btn' onClick={ () => deleteAnswer(index, answerId) }>
+                        <button type='button' className='del-btn' onClick={ () => deleteAnswer(index, id) }>
                             <FontAwesomeIcon icon='minus' />
                         </button>
                     </div>
