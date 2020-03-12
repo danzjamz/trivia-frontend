@@ -30,7 +30,7 @@ export default function Answers({ answers, updateAnswer, updateCheck, deleteAnsw
                             />
                             { answer.is_correct_answer ? 'Correct Answer' : 'Incorrect Answer' }
                         </label>
-                        <button type='button' className='del-btn' onClick={ () => deleteAnswer(index, id) }>
+                        <button type='button' className='minus-btn' onClick={ () => deleteAnswer(index, id) }>
                             <FontAwesomeIcon icon='minus' />
                         </button>
                     </div>

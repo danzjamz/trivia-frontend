@@ -133,8 +133,8 @@ export default class NewQuestion extends Component {
                 }
             );
         } else {
-            const newAnswers = this.state.answers.filter(answer => {
-                return answer.id !== answerIndex;
+            const newAnswers = this.state.answers.filter((answer, index) => {
+                return index !== answerIndex;
             });
             this.setState({ answers: [...newAnswers] });
         }
@@ -318,3 +318,5 @@ export default class NewQuestion extends Component {
         )
     }
 }
+
+// for the future! https://docs.sqlalchemy.org/en/13/orm/persistence_techniques.html#bulk-operations

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 export class TriviaDetail extends Component {
@@ -104,12 +105,16 @@ export class TriviaDetail extends Component {
         return this.state.trivia.questions.map(question => {
             return (
                 <li key={ question.id }>
-                    <h4 className='question-header'>{ question.question }</h4>
+                    <div className='q-header-items'>
+                        <h4 className='question-header'>{ question.question }</h4>
 
-                    <Link to={ `/trivia/${ this.state.trivia.trivia_id }/questions/${ question.id }/edit` }>
-                        Edit
-                    </Link>
-                    <button type='button' onClick={ () => this.delete(question.id) }>Delete</button>
+                        <Link className='edit-btn' to={ `/trivia/${ this.state.trivia.trivia_id }/questions/${ question.id }/edit` }>
+                            <FontAwesomeIcon icon='pencil-alt' />
+                        </Link>
+                        <button className='del-btn' type='button' onClick={ () => this.delete(question.id) }>
+                            <FontAwesomeIcon icon='trash-alt' />
+                        </button>
+                    </div>
 
                     <p className='category-header'>Category: { question.category }</p>
                     <p className='timed-header'>Timed Question: { question.is_timed ? 'Yes' : 'No' }</p>
@@ -137,30 +142,36 @@ export class TriviaDetail extends Component {
     render() {
         return (
             <div className='trivia-detail'>
-                <div className='heading'>
-                    <div className='title-with-buttons'>
-                        <h1>{ this.state.trivia.title }</h1>
+                <div className='detail-container'>
+                    <div className='heading'>
+                        <div className='title-with-buttons'>
+                            <h1>{ this.state.trivia.title }</h1>
 
-                        <Link to={`/trivia/${ this.state.trivia.id }/edit`}>
-                            Edit
-                        </Link>
-                        <button type='button' onClick={ () => this.delete() }>Delete</button>
+                            <div>
+                                <Link className='edit-btn' to={`/trivia/${ this.state.trivia.id }/edit`}>
+                                    <FontAwesomeIcon icon='pencil-alt' />
+                                </Link>
+                                <button className='del-btn' type='button' onClick={ () => this.delete() }>
+                                    <FontAwesomeIcon icon='trash-alt' />
+                                </button>
+                            </div>
+                        </div>
+
+                        <h3>{ this.state.trivia.description }</h3>
                     </div>
+                    <div className='questions-container'>
+                        <h3>Questions</h3>
 
-                    <h3>{ this.state.trivia.description }</h3>
-                </div>
-                <div className='questions-container'>
-                    <h3>Questions</h3>
+                        <ul className='questions'>
+                            { this.renderQuestions() }
+                        </ul>
+                    </div>
+                    <div className='settings'>
+                        <h4>Settings</h4>
 
-                    <ul className='questions'>
-                        { this.renderQuestions() }
-                    </ul>
-                </div>
-                <div className='settings'>
-                    <h4>Settings</h4>
-
-                    <p>Open to the public: { this.state.trivia.isOpen ? 'Yes' : 'No' }</p>
-                    <p>Wait for all answers before next question: { this.state.trivia.shouldWait ? 'Yes' : 'No' }</p>
+                        <p>Open to the public: { this.state.trivia.isOpen ? 'Yes' : 'No' }</p>
+                        <p>Wait for all answers before next question: { this.state.trivia.shouldWait ? 'Yes' : 'No' }</p>
+                    </div>
                 </div>
             </div>
         )
