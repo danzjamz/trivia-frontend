@@ -70,6 +70,10 @@
                     .incorrect {
                         background-color: $lightred;
                     }
+
+                    @media (max-width: 48em){
+                        grid-template-columns: 1fr;
+                    }
                 }
     
                 .edit-btn {
