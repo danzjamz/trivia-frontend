@@ -141,73 +141,87 @@ export default class NewQuestion extends Component {
     }
 
     postNewQuestion = () => {
-        if (this.checkUser) {
-            const token = JSON.parse(this.state.user).access_token;
-            let url = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question`;
-            const requestOptions = {
-                method: ( this.state.editMode ? 'PUT' : 'POST' ),
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                body: JSON.stringify(this.state.question)
-            };
-
-            if (this.state.editMode) {
-                url += `/${ this.state.questionId }`
-            }
-    
-            fetch(url, requestOptions)
+        return new Promise((resolve, reject)=>{
+            if (this.checkUser) {
+                const token = JSON.parse(this.state.user).access_token;
+                let url = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question`;
+                const requestOptions = {
+                    method: ( this.state.editMode ? 'PUT' : 'POST' ),
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify(this.state.question)
+                };
+                
+                if (this.state.editMode) {
+                    url += `/${ this.state.questionId }`
+                }
+                
+                fetch(url, requestOptions)
                 .then(response => {
                     console.log(response)
                     return response.json();
                 }).then(questionData => {
                     if (questionData) {
-                        this.postNewAnswer(token, questionData.id, this.state.answers);
+                        this.postNewAnswer(token, questionData.id, this.state.answers).then(resolve).catch(reject);
                     } else {
-                        console.log('Something went wrong posting the question!');
+                        reject('Something went wrong posting the question!');
                     }
                 }).catch(err => {
-                    console.log('Post question error ->', err);
+                    reject('Post question error ->', err);
                 });
-        } else {
-            console.log('user not logged in!');
-        }
+            } else {
+                reject('user not logged in!');
+            }
+        })
     }
 
     postNewAnswer = (token, questionId, answers, addNewInEdit=false) => {
         const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${ questionId }/answer`
         let url = baseUrl;
-        
+        const requests = [];
         for (let answer in answers) {
-            const requestOptions = {
-                method: ( this.state.editMode && !addNewInEdit ? 'PUT' : 'POST' ),
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                body: JSON.stringify(answers[answer])
-            };
-            
-            if (this.state.editMode && !addNewInEdit) {
-                url = baseUrl + `/${ answers[answer].id }`;
-            }
-    
-            fetch(url, requestOptions)
-                .then(res => {
-                    console.log(res);
-                    if (this.state.editMode && addNewInEdit) {
-                        this.getTrivia();
-                    }
-                }).catch(err => {
-                    console.log('Post question error ->', err);
+            requests.push(new Promise((resolve, reject)=>{
+                const requestOptions = {
+                    method: ( this.state.editMode && !addNewInEdit ? 'PUT' : 'POST' ),
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify(answers[answer])
+                };
+                
+                if (this.state.editMode && !addNewInEdit) {
+                    url = baseUrl + `/${ answers[answer].id }`;
                 }
-            );
+        
+                fetch(url, requestOptions)
+                    .then(res => {
+                        console.log(res);
+                        resolve(res)
+                        if (this.state.editMode && addNewInEdit) {
+                            this.getTrivia();
+                        }
+                    }).catch(reject)
+            }))
         }
+        return Promise.all(requests)
     }
 
     submitQuestion = (event) => {
-        this.postNewQuestion();
+        this.postNewQuestion().then((res)=>{
+            if (!this.state.editMode) {
+                this.setState({
+                    question: {
+                        question: '',
+                        category: '',
+                        is_timed: false,
+                        time: 0
+                    },
+                    answers: [  ]
+                });
+            } else {
+                this.props.history.push(`/trivia/${ this.state.triviaId }`)
+            }
+        }).catch((err)=>{
+            console.log(err)
+        });
         
-        if (!this.state.editMode) {
-            this.props.history.push(`/trivia/${ data.id }/questions`);
-        } else {
-            this.props.history.push(`/trivia/${ this.state.triviaId }`)
-        }
         event.preventDefault();
     }
     
