@@ -35,6 +35,7 @@ export default class App extends Component {
             <Route exact path='/trivia/:triviaId/questions/:questionId/edit' component={ NewQuestion } />
 
             <Route path='/login' component={ Login } />
+            <Route path='/register' component={ Login } />
           </Switch>
 
         </Router>
