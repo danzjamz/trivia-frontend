@@ -70,13 +70,22 @@ export default class Navigation extends Component {
                             className="nav-link">
                                 Logout
                         </NavLink> : 
-                        <NavLink 
-                            to='/login' 
-                            className="nav-link" 
-                            activeClassName='active-nav-link' 
-                            onClick={ this.login }>
-                                Login
-                        </NavLink> 
+                        <div>
+                            <NavLink 
+                                to='/login' 
+                                className="nav-link" 
+                                activeClassName='active-nav-link' 
+                                onClick={ this.login }>
+                                    Login
+                            </NavLink> 
+                            <NavLink 
+                                to='/register' 
+                                className="nav-link" 
+                                activeClassName='active-nav-link' 
+                                onClick={ this.login }>
+                                    Signup
+                            </NavLink> 
+                        </div>
                     }
                 </div>
 

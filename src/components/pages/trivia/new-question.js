@@ -8,7 +8,10 @@ export default class NewQuestion extends Component {
         super(props);
         
         this.state = {
-            trivia_id: this.props.location.state.trivia_id,
+            editMode: ( this.props.match.params.questionId ? true : false ),
+            triviaId: this.props.match.params.triviaId,
+            questionId: ( this.props.match.params.questionId ? 
+                            this.props.match.params.questionId : null ),
             question: {
                 question: '',
                 category: '',
@@ -17,6 +20,38 @@ export default class NewQuestion extends Component {
             },
             answers: [  ],
             user: this.getUser()
+        }
+    }
+
+    componentWillMount() {
+        this.getTrivia();
+    }
+
+    getTrivia = () => {
+        if (this.state.editMode && this.state.user) {
+            const token = JSON.parse(this.state.user).access_token;
+
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+            }
+
+            fetch(`http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${ this.state.questionId }`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({ 
+                        question: {
+                            question: data.question,
+                            category: data.category,
+                            is_timed: data.is_timed,
+                            time: data.time
+                        },
+                        answers: [ ...data.answers ]
+                    });
+                }).catch(err => {
+                    console.log('get trivia by id ->', err)
+                }
+            );
         }
     }
 
@@ -29,8 +64,29 @@ export default class NewQuestion extends Component {
         }
     }
 
+    checkUser = () => {
+        if (this.state.user) {
+            const token = jwt.decode(JSON.parse(this.state.user).access_token);
+            
+            // console.log(jwt.verify(token, 'supersecret'))
+    
+            if (token.exp * 1000 < Date.now()) {
+                localStorage.clear();
+                return false;
+            }
+            
+            return true;
+        }
+        return false;
+    }
+
     addAnswer = (answer) => {
-        this.setState({ answers: [...this.state.answers, answer] })
+        if (this.state.editMode) {
+            const token = JSON.parse(this.state.user).access_token;
+            this.postNewAnswer(token, this.state.questionId, [answer], true) // pass token :)
+        } else {
+            this.setState({ answers: [...this.state.answers, answer] });
+        }
     }
 
     updateAnswerText = (event, answerIndex) => {
@@ -59,75 +115,123 @@ export default class NewQuestion extends Component {
         this.setState({ answers: [...newAnswers] });
     }
 
-    deleteAnswer = (answerId) => {
-        const newAnswers = this.state.answers.filter(answer => {
-            return answer.id !== answerId;
-        });
-        this.setState({ answers: [...newAnswers] });
+    deleteAnswer = (answerIndex, id=null) => {
+        if (this.state.editMode) {
+            const token = JSON.parse(this.state.user).access_token;
+            const url = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${this.state.questionId }/answer/${ id }`;
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
+            };
+        
+            fetch(url, requestOptions)
+                .then(res => {
+                    console.log('Answer deleted ->', res)
+                    this.getTrivia();
+                }).catch(err => {
+                    console.log(err);
+                }
+            );
+        } else {
+            const newAnswers = this.state.answers.filter((answer, index) => {
+                return index !== answerIndex;
+            });
+            this.setState({ answers: [...newAnswers] });
+        }
     }
 
     postNewQuestion = () => {
-        if (this.state.user) {
-            const token = JSON.parse(this.state.user).access_token;
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                body: JSON.stringify(this.state.question)
-            };
-    
-            fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question`, requestOptions)
+        return new Promise((resolve, reject)=>{
+            if (this.checkUser) {
+                const token = JSON.parse(this.state.user).access_token;
+                let url = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question`;
+                const requestOptions = {
+                    method: ( this.state.editMode ? 'PUT' : 'POST' ),
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify(this.state.question)
+                };
+                
+                if (this.state.editMode) {
+                    url += `/${ this.state.questionId }`
+                }
+                
+                fetch(url, requestOptions)
                 .then(response => {
+                    console.log(response)
                     return response.json();
                 }).then(questionData => {
                     if (questionData) {
-                        this.postNewAnswer(token, questionData.id);
+                        this.postNewAnswer(token, questionData.id, this.state.answers).then(resolve).catch(reject);
                     } else {
-                        console.log('Something went wrong posting the question!');
+                        reject('Something went wrong posting the question!');
                     }
                 }).catch(err => {
-                    console.log('Post question error ->', err);
+                    reject('Post question error ->', err);
                 });
-        } else {
-            console.log('user not logged in!');
-        }
+            } else {
+                reject('user not logged in!');
+            }
+        })
     }
 
-    postNewAnswer = (token, questionId) => {
-        for (let answer in this.state.answers) {
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-                body: JSON.stringify(this.state.answers[answer])
-            };
-    
-            fetch(`http://127.0.0.1:4200/trivia/${ this.state.trivia_id }/question/${ questionId }/answer`, requestOptions)
-                .then(res => {
-                    if (res.status < 400) {
-                        this.setState({
-                            question: {
-                                question: '',
-                                category: '',
-                                is_timed: false,
-                                time: 0
-                            },
-                            answers: [  ]
-                        });
-                    }
-                }).catch(err => {
-                    console.log('Post question error ->', err);
-                });
-        }
-    }
-
-    submitAndAddNewQ = (event) => {
-        this.postNewQuestion();
+    postNewAnswer = (token, questionId, answers, addNewInEdit=false) => {
+        const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.triviaId }/question/${ questionId }/answer`
+        let url = baseUrl;
+        const requests = [];
+        for (let answer in answers) {
+            requests.push(new Promise((resolve, reject)=>{
+                const requestOptions = {
+                    method: ( this.state.editMode && !addNewInEdit ? 'PUT' : 'POST' ),
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                    body: JSON.stringify(answers[answer])
+                };
+                
+                if (this.state.editMode && !addNewInEdit) {
+                    url = baseUrl + `/${ answers[answer].id }`;
+                }
         
-        this.props.history.push('/new-trivia/questions');
+                fetch(url, requestOptions)
+                    .then(res => {
+                        console.log(res);
+                        resolve(res)
+                        if (this.state.editMode && addNewInEdit) {
+                            this.getTrivia();
+                        }
+                    }).catch(reject)
+            }))
+        }
+        return Promise.all(requests)
+    }
+
+    submitQuestion = (event) => {
+        this.postNewQuestion().then((res)=>{
+            if (!this.state.editMode) {
+                this.setState({
+                    question: {
+                        question: '',
+                        category: '',
+                        is_timed: false,
+                        time: 0
+                    },
+                    answers: [  ]
+                });
+            } else {
+                this.props.history.push(`/trivia/${ this.state.triviaId }`)
+            }
+        }).catch((err)=>{
+            console.log(err)
+        });
+        
         event.preventDefault();
     }
     
     submitAndFinish = (event) => {
-        this.props.history.push('/my-trivia');
+        this.postNewQuestion().then((res)=>{
+            this.props.history.push(`/trivia/${ this.state.triviaId }`);
+        }).catch((err)=>{
+            console.log(err)
+        });
+
         event.preventDefault();
     }
 
@@ -142,7 +246,10 @@ export default class NewQuestion extends Component {
     render() {
         return (
             <div className='question-container'>
-                <h1 className='heading'>New Question</h1>
+                <h1 className='heading'>
+                    { this.state.editMode ? 
+                        'Edit Question' : 'New Question' }
+                </h1>
 
                 <div className='question-wrapper'>
                     <form>
@@ -168,7 +275,7 @@ export default class NewQuestion extends Component {
                                 <input
                                     type='checkbox'
                                     name='is_timed'
-                                    value={ this.state.question.is_timed }
+                                    checked={ this.state.question.is_timed }
                                     onChange={ this.handleCheck }
                                 />
                                 Timed Question
@@ -177,7 +284,12 @@ export default class NewQuestion extends Component {
                                 <div className='seconds-label'>
                                     <input 
                                         type='text'
+                                        name='time'
                                         placeholder='s'
+                                        value={ this.state.question.time > 0 ? (
+                                                    this.state.question.time
+                                                ) : ''}
+                                        onChange={ this.handleChange }
                                         className='seconds-input'
                                     />
                                     seconds
@@ -185,7 +297,6 @@ export default class NewQuestion extends Component {
                                 ) : (
                                     null
                             ) }
-                            {/* this input doesn't do anything yet */}
                         </div>
                         <div className='new-answer-form'>
                             <NewAnswer addAnswer={ this.addAnswer } />
@@ -198,13 +309,21 @@ export default class NewQuestion extends Component {
                             deleteAnswer={ this.deleteAnswer } 
                         />
 
-                        <div className='submit-btns'>
-                            <button type='submit' onClick={ this.submitAndAddNewQ }>Submit and Add Another Question</button>
-                            <button type='submit' onClick={ this.submitAndFinish }>Submit and Finish</button> 
-                        </div>
+                            { this.state.editMode || this.props.location.state.fromTriviaDetail ? (
+                                <div className='submit-btns'>
+                                    <button type='submit' onClick={ this.submitAndFinish }>Save</button>
+                                </div>
+                            ) : (
+                                <div className='submit-btns'>
+                                    <button type='submit' onClick={ this.submitQuestion }>Submit and Add Another Question</button>
+                                    <button type='submit' onClick={ this.submitAndFinish }>Submit and Finish</button> 
+                                </div>
+                            )}
                     </form>
                 </div>
             </div>
         )
     }
 }
+
+// for the future! https://docs.sqlalchemy.org/en/13/orm/persistence_techniques.html#bulk-operations

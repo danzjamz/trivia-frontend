@@ -24,23 +24,7 @@
         }
 
         .add-btn {
-            padding-top: .1em;
-            border: none;
-            background-color: transparent;
-            color: $green;
-            font-size: 1.5em;
-
-            &:hover {
-                color: $darkgreen;
-                cursor: pointer;
-            }
-
-            &:focus {
-                outline: none;
-            }
-            &:active {
-                color: $darkergreen;
-            }
+            @include add-btn();
         }
     }
 }
@@ -63,23 +47,6 @@
 
 }
 
-.del-btn {
-    padding-top: .1em;
-    border: none;
-    background-color: transparent;
-    color: $lighttred;
-    font-size: 1.5em;
-
-    &:hover {
-        color: $red;
-        cursor: pointer;
-    }
-
-    &:focus {
-        outline: none;
-    }
-
-    &:active {
-        color: $darkred;
-    }
+.minus-btn {
+    @include delete-btn();
 }
