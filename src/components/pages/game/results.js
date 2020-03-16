@@ -9,24 +9,47 @@ export default function Results(props) {
 
         return correctAnswers.map((correctAnswer, index) => {
             if (chosenAnswer.id === correctAnswer.id) {
-                isCorrect = true;  
-            } else if (isCorrect === true && index > 0) {
-                otherCorrectAnswers.push(correctAnswer);
-            }
-            
-            if (otherCorrectAnswers.length === 0 && isCorrect) {
-                return <div key='chosenAnswer.id'>{ chosenAnswer.answer } is Correct! </div>
-            } else if (otherCorrectAnswers.length > 1) {
+                isCorrect = true;
+                otherCorrectAnswers = correctAnswers.filter(ans => ans.id !== correctAnswer.id)
+
                 return (
                     <div>
-                        Other correct answers: { otherCorrectAnswers.map(ans => {
-                            return <div key='ans.id'> {ans.answer} </div>;
-                        })}
+                        <div>
+                            { chosenAnswer.answer } is Correct!
+                        </div>
+                        <div>
+                            { otherCorrectAnswers.length > 0 ? (
+                                otherCorrectAnswers.length > 1 ? (
+                                    <div>
+                                        Other correct answers: { otherCorrectAnswers.map((otherAns, i) => {
+                                            return <span key={otherAns.id}>{ otherAns.answer }{ i !== otherCorrectAnswers.length - 1 ? ', ' : '' }</span>;
+                                        }) }
+                                    </div>
+                                ) : (
+                                    <div>Another correct answer: { correctAnswer.answer }</div>
+                                )
+                            ) : null }
+                        </div>
                     </div>
                 )
-            } else {
-                return <div key={ correctAnswer.id }>Another correct answer: { correctAnswer.answer }</div>
-            } // if (otherCorrectAnswers.length === 1) 
+            } else if (index === correctAnswers.length - 1 && !isCorrect) {
+                return (
+                    <div>
+                        <div>{chosenAnswer.answer} is incorrect.</div>
+                        <div>
+                            { correctAnswers.length > 1 ? (
+                                <div> Correct answers: 
+                                    { correctAnswers.map((corAns, index) => {
+                                        return <span key={corAns}> { corAns.answer }{ index !== correctAnswers.length - 1 ? ', ' : '' }</span>
+                                    }) }
+                                </div>
+                            ) : (
+                                `Correct answer: ${ correctAnswer.answer }`
+                            ) }
+                        </div>
+                    </div>
+                )
+            }
         });
     }
 
