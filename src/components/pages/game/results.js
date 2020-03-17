@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Results(props) {
     const playerAnswers = props.location.state.answersChosen;
@@ -12,7 +13,7 @@ export default function Results(props) {
     }
 
     correctAnswers = totalScore;
-    totalScore = (totalScore / playerAnswers.length) * 100;
+    totalScore = ((totalScore / playerAnswers.length) * 100).toFixed(2);
 
     const renderAnswers = (answerData) => {
         const question = answerData.question;
@@ -57,6 +58,7 @@ export default function Results(props) {
                     })
                 ) : null }
             </div>
+                <Link className='results-home-btn' to='/'>Back to Home</Link>
         </div>
     )
 }

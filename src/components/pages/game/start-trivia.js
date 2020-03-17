@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GetTriviaService } from '../../../services/get-trivia';
+import { GetTrivia } from '../../../services/trivia-service';
 import { Link } from 'react-router-dom';
 
 export default class StartTrivia extends Component {
@@ -16,7 +16,7 @@ export default class StartTrivia extends Component {
     componentDidMount() {
         const triviaId = this.props.match.params.id;
 
-        GetTriviaService(triviaId).then(res => {
+        GetTrivia(triviaId).then(res => {
             this.setState({ trivia: res })
         }).catch(err => {
             console.log('get trivia error ->', err);

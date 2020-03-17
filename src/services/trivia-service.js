@@ -1,7 +1,14 @@
 import React from 'react';
 import jwt from 'jsonwebtoken';
 
-export function GetTriviaService(triviaId) {
+
+export default function GetPublicTrivias() {
+    return fetch('http://127.0.0.1:4200/trivias/public')
+        .then(res => res.json())
+        .then(data => data.trivias)
+}
+
+export function GetTrivia(triviaId) {
     let user = null;
     if (localStorage.user) {
         user = localStorage.user;
@@ -34,5 +41,6 @@ export function GetTriviaService(triviaId) {
     } else {
         console.log('user not logged in!');
     }
-
 }
+
+
