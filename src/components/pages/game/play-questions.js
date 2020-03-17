@@ -41,15 +41,16 @@ export default class PlayQuestions extends Component {
 
     async handleSubmit()  {
         const currentQuestion = this.state.questions[this.state.currentQuestionIndex];
-        const correctAnswers = currentQuestion.answers.filter(answer => {
-            return answer.is_correct_answer === true;
-        });
+        // const correctAnswers = currentQuestion.answers.filter(answer => {
+        //     return answer.is_correct_answer === true;
+        // });
+
 
         await this.setState({
             answersChosen: [ ...this.state.answersChosen, 
                 { 
-                    question: currentQuestion.question,
-                    correctAnswers: correctAnswers,
+                    question: currentQuestion,
+                    // correctAnswers: correctAnswers,
                     answerChosen: this.state.answerChosen 
                 }
             ]
@@ -60,7 +61,6 @@ export default class PlayQuestions extends Component {
                 currentQuestionIndex: this.state.currentQuestionIndex + 1 
             });
         } else {
-            console.log(this.state.answersChosen);
             const triviaId = this.state.questions[this.state.currentQuestionIndex].trivia_id;
             this.props.history.push(`/trivia/${triviaId}/play/results`, { answersChosen: this.state.answersChosen });
         }
