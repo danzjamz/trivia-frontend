@@ -1,6 +1,21 @@
 .play-container {
     @include flexbox-col();
 
+    .q-category {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+
+        h2 {
+            margin-top: .1em;
+            margin-bottom: 0;
+            padding: 1em;
+            padding-right: 10em;
+            background-color: $lightgreen;
+            border-radius: 0 50px 50px 0;
+        }
+    }
+
     .play-wrapper {
         @include flexbox-col();
         align-items: flex-start;
@@ -12,7 +27,6 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding-bottom: .5em;
             font-size: 2em;
         }
 
@@ -36,12 +50,16 @@
             display: none;
         }
         
+        ul {
+            margin-top: 0;
+        }
+
         .play-item {
             width: 80%;
         }
     
         .play-list-item {
-            margin: .5em;
+            margin-bottom: .5em;
             padding: 1.5em;
             width: 100%;
             background-color: $lighteryellow;

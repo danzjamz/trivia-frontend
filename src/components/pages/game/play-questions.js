@@ -109,6 +109,9 @@ export default class PlayQuestions extends Component {
         const index = this.state.currentQuestionIndex;
         return (
             <div className='play-container'>
+                <div className='q-category'>
+                    <h2>{ this.state.questions[index].category }</h2>
+                </div>
                 <div className='play-wrapper'>
                     <div className='game-question'>
                         <h2>
