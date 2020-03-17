@@ -1,0 +1,61 @@
+.play-container {
+    @include flexbox-col();
+
+    .play-wrapper {
+        @include flexbox-col();
+        align-items: flex-start;
+        padding-top: 3em;
+        width: 80%;
+
+        .game-question {
+            padding-bottom: .5em;
+            font-size: 2em;
+        }
+        
+        .play-item {
+            width: 80%;
+        }
+    
+        .play-list-item {
+            margin: .5em;
+            padding: 1.5em;
+            width: 100%;
+            background-color: $lighteryellow;
+            font-size: 1.5em;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $lightyellow;
+                transition: .5s ease-in-out;
+            }
+
+        }
+
+        .active-answer {
+            margin: .5em;
+            padding: 1.5em;
+            width: 100%;
+            background-color: $lightyellow;
+            font-size: 1.5em;
+        }
+        
+        .button-div {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .game-btns {
+            @include button();
+            margin: 0;
+            margin: 2em;
+        }
+
+        @media (min-width: 60em) {
+            width: 60%;
+        }
+        @media (min-width: 80em) {
+            width: 50%;
+        }
+    }
+}

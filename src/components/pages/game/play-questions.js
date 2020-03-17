@@ -14,27 +14,29 @@ export default class PlayQuestions extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    // componentDidMount() {
-    //     console.log(props.location.state.questions)
-    //     this.setState({ currentQuestion: this.state.questions[0]});
-    //     console.log(this.state.questions[0])
-    // }
+    clickAnswer = (event, answer) => {
+        event.persist();
+        this.setState({ answerChosen: answer });
+        
+        const lis = document.querySelectorAll('li');
+        
+        for (const li of lis) {
+            li.classList.replace('active-answer', 'play-list-item')
+        }
+
+        event.target.classList.replace('play-list-item', 'active-answer');
+    }
 
     renderAnswers = () => {
         const currentQuestion = this.state.questions[this.state.currentQuestionIndex];
 
         return currentQuestion.answers.map(answer => {
             return (
-                <li key={ answer.id }>
-                    <p onClick={ () => this.setAnswer(answer) }>{ answer.answer }</p>
+                <li className='play-list-item' onClick={ (e) => this.clickAnswer(e, answer) } key={ answer.id }>
+                    { answer.answer }
                 </li>
             )
         })
-    }
-
-    setAnswer = (answer) => {
-        this.setState({ answerChosen: answer });
-        console.log(this.state.answerChosen)
     }
 
     async handleSubmit()  {
@@ -68,21 +70,23 @@ export default class PlayQuestions extends Component {
 
     render() {
         return (
-            <div className='play'>
-                <div>
-                    { this.state.questions[this.state.currentQuestionIndex].question }
-                </div>
-                
-                <ul>
-                    { this.renderAnswers() }
-                </ul>
+            <div className='play-container'>
+                <div className='play-wrapper'>
+                    <div className='play-item game-question'>
+                        { this.state.questions[this.state.currentQuestionIndex].question }
+                    </div>
+                    
+                    <ul className='play-item'>
+                        { this.renderAnswers() }
+                    </ul>
 
-                <div>
-                    { this.state.currentQuestionIndex < this.state.questions.length - 1 ? (
-                        <button onClick={ this.handleSubmit }>Next Question</button>
-                        ) : (
-                        <button onClick={ this.handleSubmit }>Finish</button>                
-                    )}
+                    <div className='play-item button-div'>
+                        { this.state.currentQuestionIndex < this.state.questions.length - 1 ? (
+                            <button className='game-btns' onClick={ this.handleSubmit }>Next Question</button>
+                            ) : (
+                            <button className='game-btns' onClick={ this.handleSubmit }>Finish</button>                
+                        )}
+                    </div>
                 </div>
             </div>
         )

@@ -54,7 +54,7 @@ export default function Results(props) {
     }
 
     return (
-        <div>
+        <div className='results-container'>
             { playerAnswers ? (
                 playerAnswers.map(answerData => {
                     return (
