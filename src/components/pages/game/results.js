@@ -2,6 +2,17 @@ import React from 'react';
 
 export default function Results(props) {
     const playerAnswers = props.location.state.answersChosen;
+    let totalScore = 0;
+    let correctAnswers = 0;
+
+    for (const ans of playerAnswers) {
+        if (ans.answerChosen.is_correct_answer) {
+            totalScore += 1;
+        }
+    }
+
+    correctAnswers = totalScore;
+    totalScore = (totalScore / playerAnswers.length) * 100;
 
     const renderAnswers = (answerData) => {
         const question = answerData.question;
@@ -22,11 +33,22 @@ export default function Results(props) {
     return (
         <div className='results-container'>
             <div className='results-wrapper'>
+                <div className='overall-score'>
+                    <h1>You got &nbsp; 
+                        <span className={ totalScore > 75 ? 'great' : 
+                                            totalScore > 50 ? 'good' :
+                                            totalScore > 25 ? 'poor' : 'dismal' }>
+                            { totalScore }%
+                        </span>
+                    </h1>
+                    <h2>{ correctAnswers }/{ playerAnswers.length }</h2>
+                </div>
+                <h2 className='details'>Details:</h2>
                 { playerAnswers ? (
                     playerAnswers.map(answerData => {
                         return (
                             <div className='results-q-container' key={ answerData.answerChosen.id }>
-                                <div className='results-question'>Question: { answerData.question.question }</div>
+                                <div className='results-question'>{ answerData.question.question }</div>
                                 <ul className='results-ans-container'>
                                     { renderAnswers(answerData) }
                                 </ul>

@@ -1,4 +1,6 @@
 .view-trivias-container {
+    @include flexbox-col();
+
     .trivia-item {
         display: flex;
         justify-content: space-between;
@@ -34,6 +36,25 @@
         display: flex;
         justify-content: center;
     }
+
+    .trivia-list {
+        width: 75%;
+    }
+
+    .new-trivia-btn {
+        display: flex;
+        justify-content: flex-end;
+        padding: .4em .25em;
+        font-size: 4em;
+        color: $green;
+        position: fixed;
+        bottom: -4px;
+        right: 10px;
+    }
+
+    // @media (min-width: 60em) {
+    //     width: 60%;
+    // }
 }
 
 

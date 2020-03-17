@@ -9,8 +9,9 @@ export default class StartTrivia extends Component {
         this.state = {
             trivia: { }
         }
-        console.log(props)
     }
+
+    // ADD NUMBER OF QUESTIONS IN TRIVIA ON THIS PAGE
 
     componentDidMount() {
         const triviaId = this.props.match.params.id;

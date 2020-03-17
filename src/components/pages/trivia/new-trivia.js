@@ -111,7 +111,7 @@ export default class NewTrivia extends Component {
                         if (this.state.editMode) {
                             this.props.history.push(`/trivia/${ triviaId }`);
                         } else {
-                            this.props.history.push(`/trivia/${ data.id }/questions`);
+                            this.props.history.push(`/trivia/${ data.id }/questions`, { fromTriviaDetail: false } );
                         }
                     } else {
                         return 'BAD REQUEST';

@@ -309,16 +309,16 @@ export default class NewQuestion extends Component {
                             deleteAnswer={ this.deleteAnswer } 
                         />
 
-                            { this.state.editMode || this.props.location.state.fromTriviaDetail ? (
-                                <div className='submit-btns'>
-                                    <button type='submit' onClick={ this.submitAndFinish }>Save</button>
-                                </div>
-                            ) : (
-                                <div className='submit-btns'>
-                                    <button type='submit' onClick={ this.submitQuestion }>Submit and Add Another Question</button>
-                                    <button type='submit' onClick={ this.submitAndFinish }>Submit and Finish</button> 
-                                </div>
-                            )}
+                        { this.state.editMode || this.props.location.state.fromTriviaDetail ? (
+                            <div className='submit-btns'>
+                                <button className='new-q-save' type='submit' onClick={ this.submitAndFinish }>Save</button>
+                            </div>
+                        ) : (
+                            <div className='submit-btns'>
+                                <button type='submit' onClick={ this.submitQuestion }>Submit and Add Another Question</button>
+                                <button type='submit' onClick={ this.submitAndFinish }>Submit and Finish</button> 
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>

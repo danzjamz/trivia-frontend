@@ -11,12 +11,41 @@
             width: 60%;
         }
 
+        .overall-score {
+            @include flexbox-col();
+            
+            h1 {
+                margin-bottom: 0;
+            }
+            span {
+                font-size: 1.25em;
+            }
+
+            .great {
+                color: $green;
+            }
+            .good {
+                color: $yellow;
+            }
+            .poor {
+                color: $orange;
+            }
+            .dismal {
+                color: $red;
+            }   
+        }
+
+        .details {
+            margin: 0;
+        }
+
         .results-q-container {
             padding-bottom: 1.5em;
             border-bottom: 1px solid $lightpurple;
 
             .results-question {
                 padding: 1em;
+                padding-bottom: .25em;
                 font-size: 2em;
             }
     

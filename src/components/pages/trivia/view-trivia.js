@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TriviaDetail } from './trivia-detail';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 export default class ViewTrivia extends Component {
@@ -48,6 +49,7 @@ export default class ViewTrivia extends Component {
                 <ul className='trivia-list'>
                     { this.renderTrivias() }
                 </ul>
+                <Link className='new-trivia-btn' to='/new-trivia'><FontAwesomeIcon icon='plus-circle' /></Link>
             </div>
         )
     }

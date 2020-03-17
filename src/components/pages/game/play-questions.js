@@ -14,6 +14,8 @@ export default class PlayQuestions extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // ADD CATEGORY TO THE TOP OF THE QUESTION and timer
+
     clickAnswer = (event, answer) => {
         event.persist();
         this.setState({ answerChosen: answer });
@@ -41,16 +43,11 @@ export default class PlayQuestions extends Component {
 
     async handleSubmit()  {
         const currentQuestion = this.state.questions[this.state.currentQuestionIndex];
-        // const correctAnswers = currentQuestion.answers.filter(answer => {
-        //     return answer.is_correct_answer === true;
-        // });
-
 
         await this.setState({
             answersChosen: [ ...this.state.answersChosen, 
                 { 
                     question: currentQuestion,
-                    // correctAnswers: correctAnswers,
                     answerChosen: this.state.answerChosen 
                 }
             ]
