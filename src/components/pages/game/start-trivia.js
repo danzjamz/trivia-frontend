@@ -1,0 +1,46 @@
+import React, { Component } from 'react';
+import { GetTrivia } from '../../../services/trivia-service';
+import { Link } from 'react-router-dom';
+
+export default class StartTrivia extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            trivia: { }
+        }
+    }
+
+    // ADD NUMBER OF QUESTIONS IN TRIVIA ON THIS PAGE
+
+    componentDidMount() {
+        const triviaId = this.props.match.params.id;
+
+        GetTrivia(triviaId).then(res => {
+            this.setState({ trivia: res })
+        }).catch(err => {
+            console.log('get trivia error ->', err);
+        });
+    }
+
+
+    render() {
+        return (
+            <div className='start-trivia-container'>
+                <div className='start-trivia-wrapper'>
+                    <div>
+                        <h1>{ this.state.trivia.title }</h1>
+                        <h3>{ this.state.trivia.description }</h3>
+                    </div>
+
+                    <Link to={
+                        { pathname: `/trivia/${this.state.trivia.trivia_id}/play/questions`, 
+                          state: { questions: this.state.trivia.questions }
+                        }}>
+                        Start
+                    </Link>
+                </div>
+            </div>
+        )
+    }
+}

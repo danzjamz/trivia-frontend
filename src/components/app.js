@@ -5,9 +5,9 @@ import "regenerator-runtime/runtime";
 require("regenerator-runtime/path").path
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faMinus, faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faPlusCircle, faMinus, faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faPlus, faMinus, faPencilAlt, faTrashAlt)
+library.add(faPlus, faPlusCircle, faMinus, faPencilAlt, faTrashAlt)
 
 
 import Navigation from './navigation/navigation';
@@ -17,6 +17,9 @@ import { TriviaDetail } from './pages/trivia/trivia-detail';
 import NewTrivia from './pages/trivia/new-trivia';
 import NewQuestion from './pages/trivia/new-question';
 import Home from './pages/home';
+import StartTrivia from './pages/game/start-trivia';
+import PlayQuestions from './pages/game/play-questions';
+import Results from './pages/game/results';
 
 export default class App extends Component {
   render() {
@@ -33,6 +36,10 @@ export default class App extends Component {
             <Route exact path='/trivia/:id/edit' component={ NewTrivia } />
             <Route exact path='/trivia/:triviaId/questions' component={ NewQuestion } />
             <Route exact path='/trivia/:triviaId/questions/:questionId/edit' component={ NewQuestion } />
+
+            <Route exact path='/trivia/:id/play' component={ StartTrivia } />
+            <Route path='/trivia/:id/play/questions' component={ PlayQuestions } />
+            <Route path='/trivia/:id/play/results' component={ Results } />
 
             <Route path='/login' component={ Login } />
             <Route path='/register' component={ Login } />

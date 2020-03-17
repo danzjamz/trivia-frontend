@@ -1,0 +1,19 @@
+
+
+.modal-btn {
+    @include button();
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    font-size: 3em;
+    padding: .15em;
+    width: 1.5em;
+    border-radius: 5px 20px 5px;
+    background-color: $red;
+}
+
+.ReactModal__Content .ReactModal__Contend--after-open {
+    background-color: $lightred;
+}

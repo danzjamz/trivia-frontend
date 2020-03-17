@@ -72,8 +72,8 @@ export default class Login extends Component {
     }
 
     submitHandler = (event) => {
-        if (this.determinePath() === '/Signup') {
-            if (this.state.username.length < 6) {
+        if (this.determinePath() === 'Signup') {
+            if (this.state.username.length < 4) {
                 this.setState({ error: 'Username must be at least 6 characters.'})
             } else if (this.state.password.length < 6) {
                 this.setState({ error: 'Password must be at least 6 characters.'})

@@ -30,9 +30,11 @@ export default class Navigation extends Component {
             if (user !== null)
                 this.setState({ user: user })
         }, 10000)
+        this.toggleBurger()
     }
 
     logout = () => {
+        this.toggleBurger()
         logout(this.state.user)
             .then(res => {
                 console.log(res);
@@ -58,8 +60,25 @@ export default class Navigation extends Component {
 
                 </div>
                 <div className='nav-left'>
-                    <NavLink exact to='/' className="nav-link" activeClassName='active-nav-link'>Home</NavLink>
-                    <NavLink to='/new-trivia'className="nav-link" activeClassName='active-nav-link'>New Trivia</NavLink>
+                    <NavLink 
+                        exact to='/' 
+                        className="nav-link" 
+                        activeClassName='active-nav-link' 
+                        onClick={ this.toggleBurger }>
+                            Home
+                    </NavLink>
+                    <NavLink 
+                        to='/new-trivia'className="nav-link" 
+                        activeClassName='active-nav-link' 
+                        onClick={ this.toggleBurger }>
+                            New Trivia
+                    </NavLink>
+                    <NavLink 
+                        to='/my-trivia'className="nav-link"
+                        activeClassName='active-nav-link' 
+                        onClick={ this.toggleBurger }>
+                            My Trivia
+                    </NavLink>
 
                 </div>
                 <div className='nav-right'>

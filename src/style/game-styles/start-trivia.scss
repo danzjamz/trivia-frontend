@@ -1,0 +1,40 @@
+.start-trivia-container {
+    @include flexbox-col();
+    // justify-content: center;
+    height: 90vh;
+    width: 100%;
+
+
+    .start-trivia-wrapper {
+        @include flexbox-col();
+        justify-content: space-between;
+        padding: 0 2em;
+        height: 100%;
+        width: 80%;
+        // background-color: $lightgreen;
+        
+        h1 {
+            margin-bottom: 1em;
+            font-size: 4em;
+        }
+        
+        h3 {
+            font-size: 2em;
+        }
+        
+        a {
+            @include button();
+            width: 2.22em;
+            margin-bottom: 1em;
+            padding-right: 1em;
+            padding-left: 1em;
+            font-size: 4em;
+            font-family: 'Viga', sans-serif;  
+            background-color: $lightgreen;
+        }
+
+        @media (min-width: 48em) {
+            width: 60%;
+        }
+    }
+}

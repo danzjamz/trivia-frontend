@@ -1,0 +1,103 @@
+.play-container {
+    @include flexbox-col();
+
+    .q-category {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+
+        h2 {
+            margin-top: .1em;
+            margin-bottom: 0;
+            padding: 1em;
+            padding-right: 10em;
+            background-color: $lightgreen;
+            border-radius: 0 50px 50px 0;
+        }
+    }
+
+    .play-wrapper {
+        @include flexbox-col();
+        align-items: flex-start;
+        // padding-top: 3em;
+        width: 80%;
+
+        .game-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            font-size: 2em;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            font-size: 2em;
+            padding: .15em;
+            width: 1.5em;
+            border-radius: 5px 20px 5px;
+            background-color: $lightgreen;
+        }
+
+        .low-time {
+            background-color: $lightred;
+        }
+        .no-time {
+            background-color: $red;
+        }
+        .none {
+            display: none;
+        }
+        
+        ul {
+            margin-top: 0;
+        }
+
+        .play-item {
+            width: 80%;
+        }
+    
+        .play-list-item {
+            margin-bottom: .5em;
+            padding: 1.5em;
+            width: 100%;
+            background-color: $lighteryellow;
+            font-size: 1.5em;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $lightyellow;
+                transition: .5s ease-in-out;
+            }
+
+        }
+
+        .active-answer {
+            margin: .5em;
+            padding: 1.5em;
+            width: 100%;
+            background-color: $lightyellow;
+            font-size: 1.5em;
+        }
+        
+        .button-div {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .game-btns {
+            @include button();
+            margin: 0;
+            margin: 2em;
+        }
+
+        @media (min-width: 60em) {
+            width: 60%;
+        }
+        @media (min-width: 80em) {
+            width: 50%;
+        }
+    }
+}

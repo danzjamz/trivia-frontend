@@ -1,52 +1,62 @@
 import React, { Component } from 'react';
 import { TriviaDetail } from './trivia-detail';
 import { Link } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import RenderTrivias from './render-trivias';
 
 
 export default class ViewTrivia extends Component {
-    constructor(props) {
+    constructor() {
         super();
 
         this.state = {
-            trivias: [ ]
+            trivias: [ ],
+            userId: this.getUser()
         }
     }
     
-    componentWillMount() {
+    componentDidMount() {
         this.getTrivias();
     }
 
-    getTrivias() {
-        fetch('http://127.0.0.1:4200/trivias')
-            .then((response) => {
-                return response.json();
-            })
-            .then((myJson) => {
-                console.log(myJson.trivias);
-                this.setState({ trivias: myJson.trivias});
-            });
+    getUser = () => {
+        // get user from local storage
+        if (localStorage.user == undefined) {
+            return null;
+        } else {
+            const token = jwt.decode(JSON.parse(localStorage.user).access_token);
+            return token.identity;
+        }
     }
 
-    renderTrivias = () => {
-        return this.state.trivias.map(trivia => {
-            return (
-                <li className='trivia-item' key={ trivia.id }>
-                    <Link to={ `/trivia/${trivia.id}` }>
-                        <h1>{ trivia.title }</h1>
-                        <h4>{ trivia.description }</h4>
-                    </Link>
-                </li>
-            )
-        })
+    getTrivias() {
+        if (this.state.userId !== null) {
+            fetch(`http://127.0.0.1:4200/user/${ this.state.userId }`)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    this.setState({ trivias: data.trivias});
+                });
+        }
     }
         
     render() {
         return (
             <div className='view-trivias-container'>
                 <h2>My Trivia</h2>
-                <ul className='trivia-list'>
-                    { this.renderTrivias() }
-                </ul>
+                { this.state.trivias.length > 0 ? (
+                    <ul className='trivia-list'>
+                        <RenderTrivias trivias={this.state.trivias} from='view-trivia' />
+                    </ul>
+                ) : (
+                    <h3>
+                        You don't have any trivias yet! 
+                        <Link to='/new-trivia'> Create one now</Link>
+                    </h3> 
+                ) }
+                <Link className='new-trivia-btn' to='/new-trivia'><FontAwesomeIcon icon='plus-circle' /></Link>
             </div>
         )
     }
