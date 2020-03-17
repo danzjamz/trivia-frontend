@@ -11,7 +11,7 @@ export default class NewTrivia extends Component {
             editMode: ( this.props.match.params.id ?
                             true : false ),
             trivia: {
-                user_id: 1,
+                user_id: null,
                 title: '',
                 description: '',
                 questions: '',
@@ -20,9 +20,15 @@ export default class NewTrivia extends Component {
             },
             user: this.getUser()
         }
+
     }
 
+    // ERROR HANDLING -- when BAD REQUEST don't change to new question page!!!!
+    // EDIT UPDATE -- check user token with trivia user id
+
     componentWillMount() {
+        this.getUserId();
+        
         if (this.state.editMode && this.state.user) {
             const token = JSON.parse(this.state.user).access_token;
             const trivia_id = this.props.match.params.id;
@@ -73,11 +79,23 @@ export default class NewTrivia extends Component {
         }
     }
 
-    checkUser = () => {
+    getUserId = () => {
+        if (this.getUser()) {
+            const token = jwt.decode(JSON.parse(this.state.user).access_token);
+            this.setState({ trivia: { ...this.state.trivia, user_id: token.identity } })
+            // return token.identity;
+        } else {
+            return null;
+        }
+    }
+
+    checkUser = async () => {
         if (this.state.user) {
             const token = jwt.decode(JSON.parse(this.state.user).access_token);
-            
             // console.log(jwt.verify(token, 'supersecret'))
+            // console.log('checkUser', token.identity)
+
+            // await this.setState({ trivia: { user_id: token.identity, ...this.state.trivia } });
     
             if (token.exp * 1000 < Date.now()) {
                 localStorage.clear();
@@ -90,8 +108,10 @@ export default class NewTrivia extends Component {
     }
 
     postNewTrivia = () => {
+        console.log(this.state)
         if (this.checkUser()) {
             const token = JSON.parse(this.state.user).access_token;
+
             let url = 'http://127.0.0.1:4200/trivia';
             const requestOptions = {
                 method: ( this.state.editMode ? 'PUT' : 'POST' ),
