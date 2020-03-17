@@ -157,7 +157,7 @@ export class TriviaDetail extends Component {
                             <h1>{ this.state.trivia.title }</h1>
 
                             <div>
-                                <Link className='edit-btn' to={`/trivia/${ this.state.trivia.id }/edit`}>
+                                <Link className='edit-btn' to={`/trivia/${ this.state.trivia.trivia_id }/edit`}>
                                     <FontAwesomeIcon icon='pencil-alt' />
                                 </Link>
                                 <button className='del-btn' type='button' onClick={ () => this.deleteItem() }>
@@ -183,8 +183,8 @@ export class TriviaDetail extends Component {
                     <div className='settings'>
                         <h4>Settings</h4>
 
-                        <p>Open to the public: { this.state.trivia.isOpen ? 'Yes' : 'No' }</p>
-                        <p>Wait for all answers before next question: { this.state.trivia.shouldWait ? 'Yes' : 'No' }</p>
+                        <p>Open to the public: { this.state.trivia.is_open ? 'Yes' : 'No' }</p>
+                        <p>Wait for all answers before next question: { this.state.trivia.should_wait ? 'Yes' : 'No' }</p>
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ export default function Results(props) {
                             { totalScore }%
                         </span>
                     </h1>
-                    <h2>{ correctAnswers }/{ playerAnswers.length }</h2>
+                    <h2>{ correctAnswers }/{ playerAnswers.length } questions</h2>
                 </div>
                 <h2 className='details'>Details:</h2>
                 { playerAnswers ? (

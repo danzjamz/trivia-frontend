@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TimeoutModal from './time-out-modal';
 
 export default class PlayQuestions extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ export default class PlayQuestions extends Component {
             currentQuestionIndex: 0,
             answerChosen: { },
             answersChosen: [ ],
-            timer: 0
+            timer: 0,
+            timerModalIsOpen: true
         }
         let intervalId = null;
 
@@ -21,11 +23,11 @@ export default class PlayQuestions extends Component {
         this.setTimer();
     }
 
-    //  componentWillUnmount() {
-    //     clearInterval(this.intervalId);
-    //  }
+     componentWillUnmount() {
+        clearInterval(this.intervalId);
+     }
 
-    // ADD CATEGORY TO THE TOP OF THE QUESTION and timer
+    // ADD CATEGORY TO THE TOP OF THE QUESTION
 
     clickAnswer = (event, answer) => {
         event.persist();
@@ -65,8 +67,10 @@ export default class PlayQuestions extends Component {
         });
 
         if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
-            this.setState({ 
-                currentQuestionIndex: this.state.currentQuestionIndex + 1 
+            await this.setState({ 
+                currentQuestionIndex: this.state.currentQuestionIndex + 1,
+                timer: this.state.questions[this.state.currentQuestionIndex + 1].time,
+                timerModalIsOpen: true
             });
         } else {
             const triviaId = this.state.questions[this.state.currentQuestionIndex].trivia_id;
@@ -92,6 +96,15 @@ export default class PlayQuestions extends Component {
         }
     }
 
+    toggleModal = async () => {
+        await this.setState({ 
+            timerModalIsOpen: !this.state.timerModalIsOpen,
+            answerChosen: 'no answer chosen'
+        });
+
+        this.handleSubmit();
+    }
+
     render() {
         const index = this.state.currentQuestionIndex;
         return (
@@ -101,7 +114,9 @@ export default class PlayQuestions extends Component {
                         <h2>
                             { this.state.questions[index].question }
                         </h2>
-                        <div className={'timer ' + (this.state.timer === '00' ? 'no-time' : this.state.timer <= 5 ? 'low-time' : null) }>
+                        <div className={'timer ' + (this.state.timer === '00' ? 'no-time' 
+                                                    : this.state.timer <= 5 && this.state.timer > 0 ? 'low-time' 
+                                                    : 'none') }>
                             { this.state.questions[index].time > 0 ? (
                                 this.state.timer
                             ) : null }
@@ -119,6 +134,12 @@ export default class PlayQuestions extends Component {
                             <button className='game-btns' onClick={ this.handleSubmit }>Finish</button>                
                         )}
                     </div>
+                    { this.state.timer === '00' ? 
+                        <TimeoutModal 
+                            isOpen={ this.state.timerModalIsOpen }
+                            toggleModal={ this.toggleModal } 
+                            isLastQ={ this.state.questions.length - 1 === this.state.currentQuestionIndex }
+                        /> : null }
                 </div>
             </div>
         )
