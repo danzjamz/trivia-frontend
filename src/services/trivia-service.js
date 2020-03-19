@@ -30,7 +30,6 @@ export function GetTrivia(triviaId) {
         }).catch(err => {
             console.log('get trivia by id ->', err)
         });
-    } 
 }
 
 
