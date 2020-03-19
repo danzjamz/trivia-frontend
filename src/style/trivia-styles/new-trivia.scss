@@ -47,3 +47,9 @@
         @include button();
     }
 }
+
+.login-btn {
+    @include button();
+    width: 2.6em;
+    padding: .75em 1em;
+}

@@ -31,6 +31,7 @@ export default class Login extends Component {
                         if (route === '/login') {
                             user.authdata = window.btoa(username + ':' + password);
                             localStorage.setItem('user', JSON.stringify(user));
+                            this.props.location.login();
                             this.props.history.push('/');
                         } else {
                             this.login(this.state.username, this.state.password, '/login').then(resolve).catch(reject);
@@ -72,7 +73,7 @@ export default class Login extends Component {
     }
 
     submitHandler = (event) => {
-        if (this.determinePath() === 'Signup') {
+        if (this.determinePath() === '/signup') {
             if (this.state.username.length < 4) {
                 this.setState({ error: 'Username must be at least 6 characters.'})
             } else if (this.state.password.length < 6) {
@@ -81,8 +82,6 @@ export default class Login extends Component {
         } else {
             this.login(this.state.username, this.state.password, this.props.match.path)
                 .then((res)=>{
-                    // console.log('in promise.then')
-                    // console.log(this.state.error)
                     // if (this.determinePath() === 'Signup') {
                     //     console.log('in if')
                     //     this.login(this.state.username, this.state.password, '/login');
@@ -130,12 +129,12 @@ export default class Login extends Component {
                     { this.determinePath() === 'Login' ? (
                         <p>
                             Don't have an account?&nbsp;
-                            <Link className='register-link' to='/register'>Signup</Link>
+                            <Link className='register-link' to='/register' login={ this.props.location.login }>Signup</Link>
                         </p>
                     ) : (
                         <p>
                             Already have an account?&nbsp;
-                            <Link className='register-link' to='/login'>Login</Link>
+                            <Link className='register-link' to='/login' login={ this.props.location.login }>Login</Link>
                         </p>
                     ) }
                 </div>

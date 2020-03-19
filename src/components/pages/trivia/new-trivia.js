@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
+import LoginModal from './login-modal';
 
 
 export default class NewTrivia extends Component {
@@ -18,7 +19,8 @@ export default class NewTrivia extends Component {
                 is_open: false,
                 should_wait: false
             },
-            user: this.getUser()
+            user: this.getUser(),
+            modalIsOpen: false
         }
 
     }
@@ -26,7 +28,11 @@ export default class NewTrivia extends Component {
     // ERROR HANDLING -- when BAD REQUEST don't change to new question page!!!!
     // EDIT UPDATE -- check user token with trivia user id
 
-    componentWillMount() {
+    componentDidMount() {
+        if (!this.state.user) {
+            this.toggleModal();
+        }
+
         this.getUserId();
         
         if (this.state.editMode && this.state.user) {
@@ -41,7 +47,6 @@ export default class NewTrivia extends Component {
             fetch(`http://127.0.0.1:4200/trivia/${ trivia_id }`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                     this.setState({ 
                         trivia: {
                             user_id: data.user_id,
@@ -56,18 +61,6 @@ export default class NewTrivia extends Component {
                     console.log('get trivia by id ->', err)
                 })
         }
-    }
-
-    handleChange = (event) => {
-        this.setState({ 
-           trivia: { ...this.state.trivia, [event.target.name]: event.target.value }
-        });
-    }
-
-    handleCheck = (event) => {
-        this.setState({ 
-            trivia: { ...this.state.trivia, [event.target.name]: event.target.checked } 
-        });
     }
 
     getUser = () => {
@@ -88,15 +81,14 @@ export default class NewTrivia extends Component {
             return null;
         }
     }
-
+    
     checkUser = async () => {
         if (this.state.user) {
             const token = jwt.decode(JSON.parse(this.state.user).access_token);
             // console.log(jwt.verify(token, 'supersecret'))
-            // console.log('checkUser', token.identity)
-
+            
             // await this.setState({ trivia: { user_id: token.identity, ...this.state.trivia } });
-    
+            
             if (token.exp * 1000 < Date.now()) {
                 localStorage.clear();
                 return false;
@@ -105,6 +97,10 @@ export default class NewTrivia extends Component {
             return true;
         }
         return false;
+    }
+
+    toggleModal = () => {
+        this.setState({ modalIsOpen: !this.state.modalIsOpen });
     }
 
     postNewTrivia = () => {
@@ -147,6 +143,18 @@ export default class NewTrivia extends Component {
     submitForm = (event) => {
         this.postNewTrivia();
         event.preventDefault();
+    }
+
+    handleChange = (event) => {
+        this.setState({ 
+           trivia: { ...this.state.trivia, [event.target.name]: event.target.value }
+        });
+    }
+
+    handleCheck = (event) => {
+        this.setState({ 
+            trivia: { ...this.state.trivia, [event.target.name]: event.target.checked } 
+        });
     }
 
     render() {
@@ -205,6 +213,7 @@ export default class NewTrivia extends Component {
                         </div>
                     </form>
                 </div>
+                <LoginModal isOpen={ this.state.modalIsOpen } toggleModal={ this.toggleModal } />
             </div>
         )
     }

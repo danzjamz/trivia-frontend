@@ -5,18 +5,18 @@ const logout = (props) => {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
-
     };
+
+    localStorage.removeItem('user');
 
     return fetch('http://127.0.0.1:4200/logout', requestOptions)
         .then(handleResponse)
         .then(response => {
             // login successful if there's a user in the response
             console.log('Logout successful', response);
-            localStorage.removeItem('user');
             return true;
         }).catch(err => {
-            console.log('error logging out')
+            console.log('error logging out', err)
             return false;
         });
 

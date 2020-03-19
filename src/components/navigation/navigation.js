@@ -4,13 +4,20 @@ import { NavLink } from 'react-router-dom';
 import logout from '../pages/user/logout';
 
 export default class Navigation extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             isToggle: true,
             navActiveClass: '',
-            user: this.setUser()
+            user: this.setUser(),
+            isLoggedIn: false
+        }
+    }
+
+    componentDidMount() {
+        if (this.state.user) {
+            this.setState({ isLoggedIn: true })
         }
     }
 
@@ -24,12 +31,12 @@ export default class Navigation extends Component {
     }
 
     login = () => {
-        // temp until global state and hooks
-        setTimeout(() => {
-            const user = localStorage.user;
-            if (user !== null)
-                this.setState({ user: user })
-        }, 10000)
+        
+        const user = localStorage.user;
+        if (user) {
+            this.setState({ user: user, isLoggedIn: true })
+        }
+        
         this.toggleBurger()
     }
 
@@ -39,7 +46,7 @@ export default class Navigation extends Component {
             .then(res => {
                 console.log(res);
                 if (res) {
-                    this.setState({ user: null});
+                    this.setState({ user: null, isLoggedIn: false });
                 }
             });
     }
@@ -82,7 +89,7 @@ export default class Navigation extends Component {
 
                 </div>
                 <div className='nav-right'>
-                    { this.state.user ? 
+                    { this.state.isLoggedIn ? 
                         <NavLink 
                             to='/' 
                             onClick={ () => this.logout() } 
@@ -91,17 +98,15 @@ export default class Navigation extends Component {
                         </NavLink> : 
                         <div>
                             <NavLink 
-                                to='/login' 
+                                to={{ pathname: '/login', login: this.login }}
                                 className="nav-link" 
-                                activeClassName='active-nav-link' 
-                                onClick={ this.login }>
+                                activeClassName='active-nav-link'>
                                     Login
                             </NavLink> 
                             <NavLink 
-                                to='/register' 
+                                to={{ pathname: '/register', login: this.login }}
                                 className="nav-link" 
-                                activeClassName='active-nav-link' 
-                                onClick={ this.login }>
+                                activeClassName='active-nav-link'>
                                     Signup
                             </NavLink> 
                         </div>
