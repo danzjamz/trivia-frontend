@@ -44,7 +44,7 @@ export default class NewTrivia extends Component {
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
             }
 
-            fetch(`http://127.0.0.1:4200/trivia/${ trivia_id }`, requestOptions)
+            fetch(`https://danzjamz-trivia.herokuapp.com/trivia/${ trivia_id }`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
                     this.setState({ 
@@ -108,7 +108,7 @@ export default class NewTrivia extends Component {
         if (this.checkUser()) {
             const token = JSON.parse(this.state.user).access_token;
 
-            let url = 'http://127.0.0.1:4200/trivia';
+            let url = 'https://danzjamz-trivia.herokuapp.com/trivia';
             const requestOptions = {
                 method: ( this.state.editMode ? 'PUT' : 'POST' ),
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },

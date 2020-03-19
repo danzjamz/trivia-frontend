@@ -20,7 +20,7 @@ export default class Login extends Component {
                 body: JSON.stringify({ username, password })
             };
     
-            return fetch(`http://127.0.0.1:4200${ route }`, requestOptions)
+            return fetch(`https://danzjamz-trivia.herokuapp.com${ route }`, requestOptions)
                 .then(handleResponse)
                 .then(user => {
                     // login successful if there's a user in the response

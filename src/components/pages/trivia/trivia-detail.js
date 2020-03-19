@@ -51,7 +51,7 @@ export class TriviaDetail extends Component {
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
             }
     
-            fetch(`http://127.0.0.1:4200/trivia/${ trivia_id }`, requestOptions)
+            fetch(`https://danzjamz-trivia.herokuapp.com/trivia/${ trivia_id }`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
                     this.setState({ 
@@ -80,7 +80,7 @@ export class TriviaDetail extends Component {
     
     deleteItem = (questionId = null) => {
         const token = JSON.parse(this.state.user).access_token;
-        const baseUrl = `http://127.0.0.1:4200/trivia/${ this.state.trivia.trivia_id }`;
+        const baseUrl = `https://danzjamz-trivia.herokuapp.com/trivia/${ this.state.trivia.trivia_id }`;
         let url = baseUrl;
         const requestOptions = {
             method: 'DELETE',

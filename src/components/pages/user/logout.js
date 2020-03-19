@@ -9,7 +9,7 @@ const logout = (props) => {
 
     localStorage.removeItem('user');
 
-    return fetch('http://127.0.0.1:4200/logout', requestOptions)
+    return fetch('https://danzjamz-trivia.herokuapp.com/logout', requestOptions)
         .then(handleResponse)
         .then(response => {
             // login successful if there's a user in the response
