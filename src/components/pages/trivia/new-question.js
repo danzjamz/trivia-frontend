@@ -157,7 +157,6 @@ export default class NewQuestion extends Component {
                 
                 fetch(url, requestOptions)
                 .then(response => {
-                    console.log(response)
                     return response.json();
                 }).then(questionData => {
                     if (questionData) {
