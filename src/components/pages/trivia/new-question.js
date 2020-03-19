@@ -36,7 +36,7 @@ export default class NewQuestion extends Component {
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
             }
 
-            fetch(`https://danzjamz-trivia.herokuapp.com/trivia/${ this.state.triviaId }/question/${ this.state.questionId }`, requestOptions)
+            fetch(`https://danzjamz-trivia-api.herokuapp.com/trivia/${ this.state.triviaId }/question/${ this.state.questionId }`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
                     this.setState({ 
@@ -118,7 +118,7 @@ export default class NewQuestion extends Component {
     deleteAnswer = (answerIndex, id=null) => {
         if (this.state.editMode) {
             const token = JSON.parse(this.state.user).access_token;
-            const url = `https://danzjamz-trivia.herokuapp.com/trivia/${ this.state.triviaId }/question/${this.state.questionId }/answer/${ id }`;
+            const url = `https://danzjamz-trivia-api.herokuapp.com/trivia/${ this.state.triviaId }/question/${this.state.questionId }/answer/${ id }`;
             const requestOptions = {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
@@ -144,7 +144,7 @@ export default class NewQuestion extends Component {
         return new Promise((resolve, reject)=>{
             if (this.checkUser) {
                 const token = JSON.parse(this.state.user).access_token;
-                let url = `https://danzjamz-trivia.herokuapp.com/trivia/${ this.state.triviaId }/question`;
+                let url = `https://danzjamz-trivia-api.herokuapp.com/trivia/${ this.state.triviaId }/question`;
                 const requestOptions = {
                     method: ( this.state.editMode ? 'PUT' : 'POST' ),
                     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
@@ -175,7 +175,7 @@ export default class NewQuestion extends Component {
     }
 
     postNewAnswer = (token, questionId, answers, addNewInEdit=false) => {
-        const baseUrl = `https://danzjamz-trivia.herokuapp.com/trivia/${ this.state.triviaId }/question/${ questionId }/answer`
+        const baseUrl = `https://danzjamz-trivia-api.herokuapp.com/trivia/${ this.state.triviaId }/question/${ questionId }/answer`
         let url = baseUrl;
         const requests = [];
         for (let answer in answers) {

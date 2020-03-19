@@ -20,7 +20,7 @@ export default class Login extends Component {
                 body: JSON.stringify({ username, password })
             };
     
-            return fetch(`https://danzjamz-trivia.herokuapp.com${ route }`, requestOptions)
+            return fetch(`https://danzjamz-trivia-api.herokuapp.com${ route }`, requestOptions)
                 .then(handleResponse)
                 .then(user => {
                     // login successful if there's a user in the response

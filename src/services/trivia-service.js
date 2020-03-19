@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 
 export default function GetPublicTrivias() {
-    return fetch('https://danzjamz-trivia.herokuapp.com/trivias/public')
+    return fetch('https://danzjamz-trivia-api.herokuapp.com/trivias/public')
         .then(res => res.json())
         .then(data => data.trivias)
 }
@@ -22,7 +22,7 @@ export function GetTrivia(triviaId) {
             headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }
         }
 
-        return fetch(`https://danzjamz-trivia.herokuapp.com/trivia/${ triviaId }`, requestOptions)
+        return fetch(`https://danzjamz-trivia-api.herokuapp.com/trivia/${ triviaId }`, requestOptions)
             .then(res => res.json())
             .then(data => {
                 const trivia = {

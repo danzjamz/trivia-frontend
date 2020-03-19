@@ -32,7 +32,7 @@ export default class ViewTrivia extends Component {
 
     getTrivias() {
         if (this.state.userId !== null) {
-            fetch(`https://danzjamz-trivia.herokuapp.com/user/${ this.state.userId }`)
+            fetch(`https://danzjamz-trivia-api.herokuapp.com/user/${ this.state.userId }`)
                 .then((response) => {
                     return response.json();
                 })
