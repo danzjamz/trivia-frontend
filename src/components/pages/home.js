@@ -33,7 +33,6 @@ export default class Home extends Component {
                 <h2>Trivias Open to Play</h2>
                 { this.state.trivias.length > 0 ? (
                     <ul className='trivia-list'>
-                        {/* { RenderTrivias(this.state.trivias) } */}
                         <RenderTrivias trivias={this.state.trivias} from='home' />
                     </ul>
                 ) : (
