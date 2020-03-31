@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import TimeoutModal from './time-out-modal';
+import TimeoutModal from '../modals/time-out-modal';
+import NoAnsModal from '../modals/no-ans-modal';
 
 export default class PlayQuestions extends Component {
     constructor(props) {
@@ -8,10 +9,11 @@ export default class PlayQuestions extends Component {
         this.state = {
             questions: this.props.location.state.questions,
             currentQuestionIndex: 0,
-            answerChosen: { },
+            answerChosen: null,
             answersChosen: [ ],
             timer: 0,
-            timerModalIsOpen: true
+            timerModalIsOpen: true,
+            noAnsModalIsOpen: false
         }
         let intervalId = null;
 
@@ -26,8 +28,6 @@ export default class PlayQuestions extends Component {
      componentWillUnmount() {
         clearInterval(this.intervalId);
      }
-
-    // ADD CATEGORY TO THE TOP OF THE QUESTION
 
     clickAnswer = (event, answer) => {
         event.persist();
@@ -54,27 +54,36 @@ export default class PlayQuestions extends Component {
         })
     }
 
-    async handleSubmit()  {
-        const currentQuestion = this.state.questions[this.state.currentQuestionIndex];
-
-        await this.setState({
-            answersChosen: [ ...this.state.answersChosen, 
-                { 
-                    question: currentQuestion,
-                    answerChosen: this.state.answerChosen 
-                }
-            ]
-        });
-
-        if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
-            await this.setState({ 
-                currentQuestionIndex: this.state.currentQuestionIndex + 1,
-                timer: this.state.questions[this.state.currentQuestionIndex + 1].time,
-                timerModalIsOpen: true
+    async handleSubmit() {
+        if (this.state.answerChosen === null) {
+            this.setState({
+                ...this.state,
+                noAnsModalIsOpen: !this.state.noAnsModalIsOpen
             });
         } else {
-            const triviaId = this.state.questions[this.state.currentQuestionIndex].trivia_id;
-            this.props.history.push(`/trivia/${triviaId}/play/results`, { answersChosen: this.state.answersChosen });
+            const currentQuestion = this.state.questions[this.state.currentQuestionIndex];
+    
+            await this.setState({
+                answersChosen: [ ...this.state.answersChosen, 
+                    { 
+                        question: currentQuestion,
+                        answerChosen: this.state.answerChosen 
+                    },
+                ],
+                answerChosen: null
+            });
+            
+    
+            if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
+                await this.setState({ 
+                    currentQuestionIndex: this.state.currentQuestionIndex + 1,
+                    timer: this.state.questions[this.state.currentQuestionIndex + 1].time,
+                    timerModalIsOpen: true
+                });
+            } else {
+                const triviaId = this.state.questions[this.state.currentQuestionIndex].trivia_id;
+                this.props.history.push(`/trivia/${triviaId}/play/results`, { answersChosen: this.state.answersChosen });
+            }
         }
 
         // event.preventDefault();  // down here triggers warning, at top doesn't; seems to work without it at
@@ -96,19 +105,37 @@ export default class PlayQuestions extends Component {
         }
     }
 
-    toggleModal = async () => {
-        await this.setState({ 
-            timerModalIsOpen: !this.state.timerModalIsOpen,
-            answerChosen: 'no answer chosen'
-        });
-
-        this.handleSubmit();
+    toggleModal = async (routeType) => {
+        switch (routeType) {
+            case 'BACK':
+                await this.setState({ 
+                    noAnsModalIsOpen: !this.state.timerModalIsOpen
+                });
+                break;
+            case 'CONTINUE':
+                await this.setState({ 
+                    noAnsModalIsOpen: !this.state.timerModalIsOpen,
+                    answerChosen: 'no answer chosen'
+                });
+                this.handleSubmit();
+                break;
+            case 'TIMEOUT':
+                await this.setState({ 
+                    timerModalIsOpen: !this.state.timerModalIsOpen,
+                    noAnsModalIsOpen: false,
+                    answerChosen: 'no answer chosen'
+                });
+                this.handleSubmit();
+                break;
+            default:
+                console.log('not possible! modal issue');
+                break;
+        }
     }
 
     render() {
         const index = this.state.currentQuestionIndex;
 
-        console.log(this.state.timer)
         return (
             <div className='play-container'>
                 <div className='q-category'>
@@ -140,12 +167,16 @@ export default class PlayQuestions extends Component {
                             <button className='game-btns' onClick={ this.handleSubmit }>Finish</button>                
                         )}
                     </div>
-                    { this.state.timer === '00' ? 
+                    { this.state.timer === '00' ?
                         <TimeoutModal 
                             isOpen={ this.state.timerModalIsOpen }
                             toggleModal={ this.toggleModal } 
                             isLastQ={ this.state.questions.length - 1 === this.state.currentQuestionIndex }
                         /> : null }
+                        <NoAnsModal 
+                            isOpen={ this.state.noAnsModalIsOpen }
+                            toggleModal={ this.toggleModal }
+                        />
                 </div>
             </div>
         )

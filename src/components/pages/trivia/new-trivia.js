@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
-import LoginModal from './login-modal';
+import LoginModal from '../modals/login-modal';
 
 
 export default class NewTrivia extends Component {

@@ -11,8 +11,8 @@ export default function TimoutModal(props) {
             right: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
-            width: '20em',
-            height: '15em',
+            width: '30em',
+            height: '18em',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -24,9 +24,9 @@ export default function TimoutModal(props) {
 
     return (
         <ReactModal style={ modalStyles } isOpen={ props.isOpen }>
-            <h1>You're out of time!</h1>
+            <h1 className='timeout-header'>You're out of time!</h1>
             <div className='timer no-time'>00</div>
-            <button className='modal-btn' onClick={ props.toggleModal }>
+            <button className='modal-btn' onClick={ () => props.toggleModal('TIMEOUT') }>
                 { props.isLastQ ? 'Finish' : 'Next Question' }
             </button>
         </ReactModal>
