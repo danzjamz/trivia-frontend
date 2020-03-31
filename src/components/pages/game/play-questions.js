@@ -107,6 +107,8 @@ export default class PlayQuestions extends Component {
 
     render() {
         const index = this.state.currentQuestionIndex;
+
+        console.log(this.state.timer)
         return (
             <div className='play-container'>
                 <div className='q-category'>
@@ -118,7 +120,8 @@ export default class PlayQuestions extends Component {
                             { this.state.questions[index].question }
                         </h2>
                         <div className={'timer ' + (this.state.timer === '00' ? 'no-time' 
-                                                    : this.state.timer <= 5 && this.state.timer > 0 ? 'low-time' 
+                                                    : this.state.timer <= 5 && this.state.timer > 0 ? 'low-time'
+                                                    : this.state.timer > 5 ? null 
                                                     : 'none') }>
                             { this.state.questions[index].time > 0 ? (
                                 this.state.timer
