@@ -7,17 +7,16 @@ export default class StartTrivia extends Component {
         super(props);
 
         this.state = {
-            trivia: { }
+            trivia: { },
+            questions: []
         }
     }
-
-    // ADD NUMBER OF QUESTIONS IN TRIVIA ON THIS PAGE
 
     componentDidMount() {
         const triviaId = this.props.match.params.id;
 
         GetTrivia(triviaId).then(res => {
-            this.setState({ trivia: res })
+            this.setState({ trivia: res, questions: res.questions })
         }).catch(err => {
             console.log('get trivia error ->', err);
         });
@@ -31,14 +30,25 @@ export default class StartTrivia extends Component {
                     <div>
                         <h1>{ this.state.trivia.title }</h1>
                         <h3>{ this.state.trivia.description }</h3>
+                        <h3><span className='start-questions-len'>{ this.state.questions.length }</span>
+                            { this.state.questions.length > 1 || this.state.questions.length === 0 ? 
+                            ' questions'
+                            : ' question' }
+                        </h3>
                     </div>
 
-                    <Link to={
-                        { pathname: `/trivia/${this.state.trivia.trivia_id}/play/questions`, 
-                          state: { questions: this.state.trivia.questions }
-                        }}>
-                        Start
-                    </Link>
+                    { this.state.questions.length > 0 ? (
+                        <Link className='giant-btn' to={
+                            { pathname: `/trivia/${this.state.trivia.trivia_id}/play/questions`, 
+                            state: { questions: this.state.trivia.questions }
+                            }}>
+                            Start
+                        </Link>
+                    ) : (
+                        <Link to='/'>
+                            Back to Home
+                        </Link>
+                    )}
                 </div>
             </div>
         )

@@ -21,9 +21,18 @@
         h3 {
             font-size: 2em;
         }
+
+        .start-questions-len {
+            font-size: 1.25em;
+        }
         
         a {
             @include button();
+            margin-bottom: 10em;
+            text-align: center;
+        }
+
+        .giant-btn {
             width: 2.22em;
             margin-bottom: 1em;
             padding-right: 1em;
