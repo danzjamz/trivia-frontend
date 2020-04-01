@@ -101,7 +101,7 @@ export class TriviaDetail extends Component {
                 this.props.history.push('/my-trivia');
             }
         }).catch(err => {
-            console.log(err);
+            console.log('delete item error ->', err);
         })
     }
 

@@ -129,7 +129,7 @@ export default class NewQuestion extends Component {
                     console.log('Answer deleted ->', res)
                     this.getTrivia();
                 }).catch(err => {
-                    console.log(err);
+                    console.log('delete answer error ->', err);
                 }
             );
         } else {
@@ -191,7 +191,6 @@ export default class NewQuestion extends Component {
         
                 fetch(url, requestOptions)
                     .then(res => {
-                        console.log(res);
                         resolve(res)
                         if (this.state.editMode && addNewInEdit) {
                             this.getTrivia();
@@ -218,7 +217,7 @@ export default class NewQuestion extends Component {
                 this.props.history.push(`/trivia/${ this.state.triviaId }`)
             }
         }).catch((err)=>{
-            console.log(err)
+            console.log('post new question error ->', err)
         });
         
         event.preventDefault();
@@ -228,7 +227,7 @@ export default class NewQuestion extends Component {
         this.postNewQuestion().then((res)=>{
             this.props.history.push(`/trivia/${ this.state.triviaId }`);
         }).catch((err)=>{
-            console.log(err)
+            console.log('post new question error ->', err)
         });
 
         event.preventDefault();
@@ -265,7 +264,7 @@ export default class NewQuestion extends Component {
                             <input 
                                 name='category' 
                                 value={ this.state.question.category } 
-                                placeholder='category'
+                                placeholder='category (optional)'
                                 onChange={ this.handleChange }>
                             </input>
                         </div>

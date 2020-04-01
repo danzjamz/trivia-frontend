@@ -28,7 +28,7 @@ export function GetTrivia(triviaId) {
             }
             return trivia;
         }).catch(err => {
-            console.log('get trivia by id ->', err)
+            console.log('get trivia by id error ->', err)
         });
 }
 

@@ -31,12 +31,11 @@ export default class Login extends Component {
                         if (route === '/login') {
                             user.authdata = window.btoa(username + ':' + password);
                             localStorage.setItem('user', JSON.stringify(user));
-                            this.props.location.login();
+                            // this.props.location.login(); // removed this from here and in login/register toggle below?
                             this.props.history.push('/');
                         } else {
                             this.login(this.state.username, this.state.password, '/login').then(resolve).catch(reject);
                         }
-                        console.log('yoyoyo', user);
                     }
                     // return user;
                 }).catch(err => {
@@ -88,7 +87,7 @@ export default class Login extends Component {
                     // }
                     this.props.history.push('/');
                 }).catch(err => {
-                    console.log(err)
+                    console.log('login error ->', err)
                 });
         }
 
@@ -109,7 +108,11 @@ export default class Login extends Component {
                 <div className='form-wrapper'>
                     <h1>{ this.determinePath() }</h1>
                     <form onSubmit={ this.submitHandler } className='form'>
-                        <p className="error">{ this.state.error }</p>
+                        { typeof this.state.error !== 'object' && this.state.error !== null ? (
+                            <p className="error">{ this.state.error }</p>
+                        ) : (
+                            <p className="error">An error occured with the server. Try again later.</p>
+                        ) }
                         <input 
                             type="text" 
                             name="username" 
@@ -129,12 +132,12 @@ export default class Login extends Component {
                     { this.determinePath() === 'Login' ? (
                         <p>
                             Don't have an account?&nbsp;
-                            <Link className='register-link' to='/register' login={ this.props.location.login }>Signup</Link>
+                            <Link className='register-link' to='/register'>Signup</Link>
                         </p>
                     ) : (
                         <p>
                             Already have an account?&nbsp;
-                            <Link className='register-link' to='/login' login={ this.props.location.login }>Login</Link>
+                            <Link className='register-link' to='/login'>Login</Link>
                         </p>
                     ) }
                 </div>

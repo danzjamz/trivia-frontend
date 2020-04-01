@@ -44,7 +44,6 @@ export default class Navigation extends Component {
         this.toggleBurger()
         logout(this.state.user)
             .then(res => {
-                console.log(res);
                 if (res) {
                     this.setState({ user: null, isLoggedIn: false });
                 }

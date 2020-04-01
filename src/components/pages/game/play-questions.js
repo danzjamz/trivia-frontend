@@ -138,9 +138,11 @@ export default class PlayQuestions extends Component {
 
         return (
             <div className='play-container'>
-                <div className='q-category'>
-                    <h2>{ this.state.questions[index].category }</h2>
-                </div>
+                { this.state.questions[index].category ? (
+                    <div className='q-category'>
+                        <h2>{ this.state.questions[index].category }</h2>
+                    </div>
+                ) : null }
                 <div className='play-wrapper'>
                     <div className='game-question'>
                         <h2>

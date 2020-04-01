@@ -58,7 +58,7 @@ export default class NewTrivia extends Component {
                         }
                     })
                 }).catch(err => {
-                    console.log('get trivia by id ->', err)
+                    console.log('get trivia by id error ->', err)
                 })
         }
     }
@@ -104,7 +104,6 @@ export default class NewTrivia extends Component {
     }
 
     postNewTrivia = () => {
-        console.log(this.state)
         if (this.checkUser()) {
             const token = JSON.parse(this.state.user).access_token;
 
