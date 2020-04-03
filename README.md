@@ -1,5 +1,7 @@
-# React/Redux/Router Starter Project
+# Trivia App
 
-> Provided for the students of the [Bottega Code School](https://bottega.tech/)
+> to install packages $ pipenv install 
 
-*Fork from [es6-webpack2-starter](https://github.com/micooz/es6-webpack2-starter)*
+> enter pipenv environment $ pipenv shell
+
+> run code $ python app.py
