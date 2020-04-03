@@ -1,7 +1,5 @@
 # Trivia App
 
-> to install packages $ pipenv install 
+> to install packages $ npm install
 
-> enter pipenv environment $ pipenv shell
-
-> run code $ python app.py
+> to run project $ npm start
